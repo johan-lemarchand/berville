@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+       {# {{ encore_entry_link_tags('app') }}#}
+        <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+    {% endblock %}
+</head>
+<body>
+{% block body %}{% endblock %}
+{% block javascripts %}
+    {#{{ encore_entry_script_tags('app') }}#}
+    <!-- Flashy depends on jQuery -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <!-- Load Flashy default JavaScript -->
+    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+    <!-- Include Flashy default partial -->
+    {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDj2kY0nA3LGYeZoLInJyWJJzA6muMZCcc&callback=initMap&libraries=&v=weekly" async></script>
+{% endblock %}
+</body>
+</html>
