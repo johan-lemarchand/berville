@@ -1,0 +1,76 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <section class="flex py-8 w-full h-full bg-gray-100 text-gray-900 ">
+        <div class="w-3/4 items-center mx-auto flex-col md:flex-row flex">
+            <div class="md:w-1/3 order-1 md:order-none">
+                <div class="flex flex-col px-8 items-center">
+                    <div class="my-2 flex items-center justify-center rounded-full w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 ">
+                        <svg class="fill-current inline-block h-4  text-white "
+                             viewBox="0 0 441 308" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M154.404 267.999C154.269 268 154.135 268 154 268C91.0395 268 40 216.96 40 154C40 91.0395 91.0395 40 154 40C206.215 40 250.231 75.1045 263.734 123H304.879C290.533 52.8067 228.433 0 154 0C68.9482 0 0 68.9482 0 154C0 239.052 68.9482 308 154 308H441V268H154.404L154.404 267.999ZM441 234L152 234V233.9C151.983 233.9 151.967 233.9 151.95 233.9C108.347 233.9 73 198.553 73 154.95C73 111.347 108.347 76 151.95 76C184.181 76 211.901 95.3141 224.168 123H174.233C167.919 118.588 160.237 116 151.95 116C130.438 116 113 133.438 113 154.95C113 176.144 129.927 193.384 151 193.888V194H152H220.581L441 194V234Z"/>
+                        </svg>
+                    </div>
+                    <p class="text-xs text-gray-400 text-center">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
+                        perferendis ad minima magni.
+                    </p>
+                    <p class="text-xs text-gray-400 text-center">
+                        Your Copyright here
+                    </p>
+                </div>
+            </div>
+            <div class="flex flex-col w-2/3">
+                <div class="flex flex-col lg:flex-row w-full border-b border-gray-200 md:pb-8 justify-between">
+                    <div class="flex flex-col items-center w-full md:flex-row lg:w-2/3 justify-evenly">
+                        <ul class="p-2 md:py-0">
+                            <li class="text-gray-500 uppercase text-xl">Category 1</li>
+                            <li>Item 1</li>
+                            <li>Item 2</li>
+                            <li>Item 3</li>
+                        </ul>
+                        <ul class="p-2 md:py-0">
+                            <li class="text-gray-500 uppercase text-xl">Category 2</li>
+
+                            <li>Item 1</li>
+                            <li>Item 2</li>
+                            <li>Item 3</li>
+                        </ul>
+                        <ul class="p-2 md:py-0">
+                            <li class="text-gray-500 uppercase text-xl">Category 3</li>
+
+                            <li>Item 1</li>
+                            <li>Item 2</li>
+                            <li>Item 3</li>
+                        </ul>
+                    </div>
+                    <div class="sm:w-1/2 sm:mt-0 mt-8 h-auto">
+                        <div class="text-red-light mb-2">Newsletter</div>
+                        <p class="text-grey-darker leading-normal">Lorem ipsum dolor sit amet, consectetur
+                            adipisicing elit. Commodi, consectetur. </p>
+                        <div class="mt-4 flex">
+                            <input type="text"
+                                   class="p-2 border border-grey-light round text-grey-dark text-sm h-auto"
+                                   placeholder="Your email address"/>
+                            <button
+                                    class="px-6 h-16 text-white hover:to-blue-600 hover:from-purple-500 bg-gradient-to-br from-blue-500 to-purple-600 focus:ring-blue-300 lg:w-1/3 my-4 lg:my-auto ring ring-transparent text-sm shadow-md rounded-md font-semibold focus:outline-none">
+                                Newsletter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden lg:flex order-last md:order-none justify-between pt-10 self-end items-center w-1/5">
+                    <svg class="w-8 fill-current text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M0 0v24h24v-24h-24zm18.862 9.237c.208 4.617-3.235 9.765-9.33 9.765-1.854 0-3.579-.543-5.032-1.475 1.742.205 3.48-.278 4.86-1.359-1.437-.027-2.649-.976-3.066-2.28.515.098 1.021.069 1.482-.056-1.579-.317-2.668-1.739-2.633-3.26.442.246.949.394 1.486.411-1.461-.977-1.875-2.907-1.016-4.383 1.619 1.986 4.038 3.293 6.766 3.43-.479-2.053 1.079-4.03 3.198-4.03.944 0 1.797.398 2.396 1.037.748-.147 1.451-.42 2.085-.796-.245.767-.766 1.41-1.443 1.816.664-.08 1.297-.256 1.885-.517-.44.656-.997 1.234-1.638 1.697z"/>
+                    </svg>
+                    <svg class="w-8 fill-current text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+                    </svg>
+                    <svg class="w-8 fill-current text-blue-500 " xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M0 0v24h24v-24h-24zm8 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.397-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

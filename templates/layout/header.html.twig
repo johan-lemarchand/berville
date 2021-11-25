@@ -1,0 +1,90 @@
+{% extends "base.html.twig" %}
+{% set route_name = app.request.attributes.get('_route') %}
+{% block body %}
+    <div class="h-full bg-center bg-cover" style="background-image: url({{ asset('images/judo-header.jpg') }})">
+        <section class="w-full">
+            <nav class="flex flex-col justify-between items-center p-8 mx-auto w-full md:flex-row lg:w-5/6 xl:3/4">
+                <div class="flex justify-center items-center mr-12 mb-4">
+                    <a href="/">
+                    <img class="w-36 h-28" src="{{ asset('images/logo.jpg') }}" alt="logo du club">
+                    </a>
+                </div>
+                <ul class="flex flex-1 justify-evenly items-center w-full h-16 text-center text-gray-900 bg-white rounded-lg shadow-md md:w-auto">
+
+                  <li {% if route_name == "home" %} class="nav-link-active" {% else %} class="nav-link" {% endif %}>
+                    <a  href='{{ path('app_homepage') }}' >Accueil</a>
+                  </li>
+
+                  <li class="nav-link">
+                    <a href="#">Notre club</a>
+                  </li>
+
+                  <li class="nav-link">
+                    <a href='#'>Actualité</a>
+                  </li>
+
+                  <li class="nav-link">
+                    <a href='{#{{ path('event') }}#}'>Evénements</a>
+                  </li>
+
+                  <li class="nav-link">
+                    <a href="#">Contact</a>
+                  </li>
+
+                  {% if app.user %}
+                      <div class="nav-link"><p>Bienvenue {{ app.user.lastName }}</p> <a href="{{ path('app_logout') }}">Déconnexion</a> </div>
+                  {% else %}
+                  <li {% if route_name == "app_login" %} class="nav-link-active" {% else %} class="nav-link" {% endif %}>
+                      <a href='{{ path('app_login') }}'>Connexion</a>
+                  </li>
+                  {% endif %}
+                  {% if is_granted('ROLE_ADMIN') %}
+                  <li class="nav-link">
+                        <a href='{{ path('home_dashboard') }}'>Admin</a>
+                  </li>
+                  {% endif %}
+                </ul>
+            </nav>
+        </section>
+        <div class="flex flex-col-reverse items-center px-16 lg:flex-row">
+            <div class="flex justify-evenly items-center p-2 mx-auto">
+                <div class="flex flex-col p-6 text-gray-900 bg-white rounded-lg shadow-lg">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex justify-between items-center">
+                            <img class="hidden object-cover object-center mr-4 w-16 h-16 rounded-lg sm:flex" src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1868&q=80" alt=""/>
+                            <p class="font-bold">Fitz Chivalery</p>
+                        </div>
+                        <div class="flex justify-center items-center p-2 font-bold text-blue-500 bg-blue-300 rounded-lg">
+                            8 <span class="font-light">/10</span>
+                        </div>
+                    </div>
+                    <h1 class="mb-1 text-lg font-bold">
+                        A really usefull tool for adventurer
+                    </h1>
+                    <p class="text-justify text-gray-500">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Distinctio, quae rem minima culpa!
+                    </p>
+                </div>
+            </div>
+            <div class="flex flex-col justify-end items-end p-8 text-right text-white">
+                <h1 class="text-5xl leading-none text">Hello, World</h1>
+                <h2 class="py-8 w-full md:text-2xl md:w-3/4">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. A
+                    quaerat delectus optio reprehenderit aperiam!
+                </h2>
+                <div class="flex flex-col justify-end items-end py-4 w-full md:items-center md:flex-row">
+                    <button class="px-6 mb-4 h-16 text-xl font-semibold text-blue-500 uppercase bg-gray-200 rounded-md ring ring-transparent shadow-md md:mb-0 md:mr-8 focus:outline-none">
+                        Subscribe
+                    </button>
+                    <button class="flex items-center h-16 font-semibold uppercase bg-gradient-to-br from-transparent to-transparent rounded-md ring ring-transparent duration-200 ease-in-out transform hover:translate-x-2 focus:outline-none">
+                        Read More
+                        <svg class="ml-2 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

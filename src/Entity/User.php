@@ -21,7 +21,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  * @Vich\Uploadable
- * @UniqueEntity("email", message=": un utilisateur ayant cette adresse email existe déja")
+ * @UniqueEntity("email", message="un utilisateur ayant cette adresse email existe déja")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
