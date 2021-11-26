@@ -1,0 +1,29 @@
+{{ form_start(eventForm, {'attr': {'novalidate': 'novalidate', 'class': 'flex text-gray-400 font-medium flex-col'}}) }}
+
+{{ form_label(eventForm.title, 'Titre', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(eventForm.title, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(eventForm.title) }}</div>
+
+{{ form_label(eventForm.content, 'Contenu', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(eventForm.content, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(eventForm.content) }}</div>
+
+{{ form_label(eventForm.city, 'Ville', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(eventForm.city, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(eventForm.city) }}</div>
+
+{{ form_label(eventForm.zip, 'Code postal', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(eventForm.zip, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(eventForm.zip) }}</div>
+
+{{ form_label(eventForm.place, 'Adresse', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(eventForm.place, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(eventForm.place) }}</div>
+
+{{ form_label(eventForm.date, 'Date de l\'évènement', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(eventForm.date, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(eventForm.date)}} </div>
+
+<button class="h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg p-4 text-white mt-4">{{ button_label|default('Enregistrer') }}</button>
+
+{{ form_end(eventForm) }}

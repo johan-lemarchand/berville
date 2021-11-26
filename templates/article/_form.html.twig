@@ -1,0 +1,21 @@
+{{ form_start(articleForm, {'attr': {'novalidate': 'novalidate', 'class': 'flex text-gray-400 font-medium flex-col'}}) }}
+
+{{ form_label(articleForm.title, 'Titre', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(articleForm.title, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(articleForm.title) }}</div>
+
+{{ form_label(articleForm.content, 'Contenu', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(articleForm.content, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(articleForm.content) }}</div>
+
+{{ form_label(articleForm.imageFile, 'Photo', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(articleForm.imageFile, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(articleForm.imageFile) }}</div>
+
+{{ form_label(articleForm.tags, 'Tags', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(articleForm.tags, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(articleForm.tags)}} </div>
+
+<button class="h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg p-4 text-white mt-4">{{ button_label|default('Enregistrer') }}</button>
+
+{{ form_end(articleForm) }}
