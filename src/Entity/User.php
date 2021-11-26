@@ -4,13 +4,17 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\{
     PasswordAuthenticatedUserInterface,
     UserInterface
 };
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -41,11 +45,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="date", nullable=true)
      */
     private $birthday;
-
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
 
     /**
      * @var string The hashed password
@@ -93,6 +92,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
     /**
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="user")
+     */
+    private $article;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
+     */
+    private $role;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
@@ -111,6 +120,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    public function __construct()
+    {
+        $this->article = new ArrayCollection();
+        $this->event = new ArrayCollection();
+    }
 
     public function __toString(): string
     {
@@ -205,16 +220,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return array($this->getRole()->getRoleString());
     }
 
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getRole(): ?Role
+    {
+        return $this->role;
+    }
+
+    public function setRole(?Role $role): self
+    {
+        $this->role = $role;
 
         return $this;
     }
@@ -314,18 +337,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRole(): ?Role
-    {
-        return $this->role;
-    }
-
-    public function setRole(?Role $role): self
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
     public function getAvatar(): ?string
     {
         return $this->avatar;
@@ -364,6 +375,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getArticle(): Collection
+    {
+        return $this->article;
+    }
+
+    public function addArticle(Article $article): self
+    {
+        if (!$this->article->contains($article)) {
+            $this->article[] = $article;
+            $article->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): self
+    {
+        if ($this->article->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getUser() === $this) {
+                $article->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getEvent(): Collection
+    {
+        return $this->event;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->event->contains($event)) {
+            $this->event[] = $event;
+            $event->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->event->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getUser() === $this) {
+                $event->setUser(null);
+            }
+        }
 
         return $this;
     }

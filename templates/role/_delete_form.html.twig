@@ -1,0 +1,7 @@
+<form method="post" action="{{ path('role_delete', {'id': role.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer ce role?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ role.id) }}">
+    <button  aria-label="Supprimer le rôle" data-balloon-pos="up" class="inline-block p-3 text-center text-white transition bg-red-500  shadow ripple hover:shadow-lg hover:bg-red-600 focus:outline-none">
+        <i  class="far fa-trash-alt"></i>
+    </button>
+</form>
