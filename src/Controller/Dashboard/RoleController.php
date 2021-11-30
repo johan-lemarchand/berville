@@ -5,26 +5,25 @@ namespace App\Controller\Dashboard;
 use App\Entity\Role;
 use App\Form\RoleType;
 use App\Repository\RoleRepository;
-
 use Knp\Component\Pager\PaginatorInterface;
-
 use MercurySeries\FlashyBundle\FlashyNotifier;
-
-use Doctrine\ORM\EntityManagerInterface;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-use Symfony\Component\HttpFoundation\{
-    Request,
-    Response
-};
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
-#[Route('/admin/role')]
+/**
+ * @Route("/admin/role")
+ */
 class RoleController extends AbstractController
 {
-    #[Route('/', name: 'role_home', methods: ['GET'])]
+    /**
+     * @Route("/", name="role_home", methods={"GET"})
+     * @param RoleRepository $roleRepository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @return Response
+     */
     public function index(RoleRepository $roleRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $data = $roleRepository->findAll();
@@ -33,34 +32,43 @@ class RoleController extends AbstractController
             $request->query->getInt('page', 1),
             5
         );
-
         return $this->render('role/index.html.twig', [
             'roles' => $roles,
         ]);
     }
 
-    #[Route('/new', name: 'role_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    /**
+     * @Route("/new", name="role_new", methods={"GET","POST"})
+     * @param Request $request
+     * @param FlashyNotifier $flashy
+     * @return Response
+     */
+    public function new(Request $request, FlashyNotifier $flashy): Response
     {
         $role = new Role();
         $form = $this->createForm(RoleType::class, $role);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($role);
             $entityManager->flush();
 
             $flashy->success('Votre rôle est bien créé');
-            return $this->redirectToRoute('role_home', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('role_home');
         }
 
-        return $this->renderForm('role/new.html.twig', [
+        return $this->render('role/new.html.twig', [
             'role' => $role,
-            'roleForm' => $form,
+            'roleForm' => $form->createView(),
         ]);
     }
 
-    #[Route('/{id}', name: 'role_show', methods: ['GET'])]
+    /**
+     * @Route("/{id}", name="role_show", methods={"GET"})
+     * @param Role $role
+     * @return Response
+     */
     public function show(Role $role): Response
     {
         return $this->render('role/show.html.twig', [
@@ -68,34 +76,47 @@ class RoleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'role_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Role $role, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    /**
+     * @Route("/{id}/edit", name="role_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Role $role
+     * @param FlashyNotifier $flashy
+     * @return Response
+     */
+    public function edit(Request $request, Role $role, FlashyNotifier $flashy): Response
     {
         $form = $this->createForm(RoleType::class, $role);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->getDoctrine()->getManager()->flush();
 
             $flashy->success('Votre rôle est bien edité');
-            return $this->redirectToRoute('role_home', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('role_home');
         }
 
-        return $this->renderForm('role/edit.html.twig', [
+        return $this->render('role/edit.html.twig', [
             'role' => $role,
-            'roleForm' => $form,
+            'roleForm' => $form->createView(),
         ]);
     }
 
-    #[Route('/{id}', name: 'role_delete', methods: ['DELETE'])]
-    public function delete(Request $request, Role $role, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    /**
+     * @Route("/{id}", name="role_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Role $role
+     * @param FlashyNotifier $flashy
+     * @return Response
+     */
+    public function delete(Request $request, Role $role, FlashyNotifier $flashy): Response
     {
         if ($this->isCsrfTokenValid('delete'.$role->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($role);
             $entityManager->flush();
         }
 
         $flashy->success('Votre rôle est bien supprimé');
-        return $this->redirectToRoute('role_home', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('role_home');
     }
 }

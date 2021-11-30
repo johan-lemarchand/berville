@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Dashboard;
 
 use App\Entity\Event;
 use App\Form\EventType;
@@ -33,7 +33,7 @@ class EventController extends AbstractController
             6
         );
 
-        return $this->render('event/index.html.twig', [
+        return $this->render('event/home.html.twig', [
             'events' => $events,
         ]);
     }
