@@ -4,18 +4,20 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\NonUniqueResultException;
 use MercurySeries\FlashyBundle\FlashyNotifier;
+use Symfony\Bridge\Twig\Mime\NotificationEmail;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
@@ -30,20 +32,16 @@ class RegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager, RoleRepository $roleRepository): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $role = $roleRepository->findOneByRoleString('ROLE_USER');
 
-            $user->setRole($role);
+            $user->setRoles(['ROLE_USER']);
             // encode the plain password
             $user->setPassword(
             $userPasswordHasher->hashPassword(
@@ -55,15 +53,16 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('club-judo-berville@test.com', 'Club Judo Berville'))
-                    ->to($user->getEmail())
-                    ->subject('Confirmation de votre adresse email')
+                ((new TemplatedEmail())
+                    ->subject('Confirmation d\'un membre')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
-            $this->flashy->info('Vous avez reçu un email pour confirmer votre compte');
+                    ->from('club-judo-berville@test.com')
+                    ->to('club-judo-berville@test.com')
+                    ->context(['user' => $user])
+                ));
+
+            $this->flashy->info('Un email est envoyé à l\'administrateur pour qu\'il valide votre compte');
 
             return $this->redirectToRoute('app_login');
         }
@@ -73,8 +72,11 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     */
     #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, UserRepository $userRepository): Response
+    public function verifyUserEmail(Request $request, UserRepository $userRepository, MailerInterface $mailer): Response
     {
         $id = $request->get('id'); // récupérer l'identifiant de l'utilisateur à partir de l'url
 
@@ -93,12 +95,20 @@ class RegistrationController extends AbstractController
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
+
         } catch (VerifyEmailExceptionInterface $exception) {
            $this->flashy->error('Votre lien de vérification n\est pas bon');
             return $this->redirectToRoute('app_register');
         }
 
-        $this->flashy->success('Votre email est bien vérifié');
+        $this->flashy->success('Vous-avez bien validé votre membre');
+        $email = (new TemplatedEmail())
+            ->from('club-judo-berville@test.com')
+            ->to($user->getEmail())
+            ->subject('Validation de compte')
+            ->htmlTemplate('registration/member.html.twig')
+        ;
+        $mailer->send($email);
 
         return $this->redirectToRoute('app_homepage');
     }

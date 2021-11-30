@@ -1,11 +1,11 @@
-<h1>Bonjour! Veuillez confirmer votre email!</h1>
+<h1>Bonjour! Une membre demande à être enregistré!</h1>
 
 <p>
-    Veuillez confirmer votre adresse e-mail en cliquant sur le lien suivant: <br><br>
-    <a href="{{ signedUrl }}">Confirmer mon e-mail</a>.
+    Voici son prénom: {{ user.lastname }}, nom: {{ user.firstname }}, email: {{ user.email }}
+    Veuillez confirmer son inscription ou le refusé: <br><br>
+    <a href="{{ signedUrl }}">Accepté</a> <br>
+    ou <br>
+    <a href="{{ url('user_delete', { id: user.id }) }}">Refusé</a> <br>
     Ce lien expirera dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
 </p>
 
-<p>
-    On vous attends!
-</p>

@@ -13,6 +13,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.10",
         "knplabs/knp-paginator-bundle": "^5.7",
+        "liip/imagine-bundle": "^2.7",
         "mercuryseries/flashy-bundle": "^4.0",
         "phpdocumentor/reflection-docblock": "^5.3",
         "sensio/framework-extra-bundle": "^6.1",
@@ -44,7 +45,9 @@
         "symfony/yaml": "5.3.*",
         "symfonycasts/reset-password-bundle": "^1.10",
         "symfonycasts/verify-email-bundle": "^1.6",
+        "twig/cssinliner-extra": "^3",
         "twig/extra-bundle": "^2.12|^3.0",
+        "twig/inky-extra": "^3",
         "twig/string-extra": "^3.3",
         "twig/twig": "^2.12|^3.0",
         "vich/uploader-bundle": "^1.18"
