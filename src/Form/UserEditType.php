@@ -26,9 +26,9 @@ class UserEditType extends AbstractType
                 'required' => true,
                 'constraints' => [new NotBlank(['message' => 'ne peut pas être vide']), new Email(['message' => 'Votre email n\'est pas valide'])]
             ])
-            ->add('role', null, [
+            /*->add('role', null, [
                 'expanded' => true,
-            ])
+            ])*/
             ->add('firstname', TextType::class, [
                 'attr' => array(
                     'placeholder' => 'Nom de l\'utilisateur'
@@ -37,9 +37,9 @@ class UserEditType extends AbstractType
                 'constraints' => [new NotBlank(['message' => 'ne peut pas être vide'])]
             ])
             ->add('birthday', DateType::class, [
-                'attr' => array(
-                    'placeholder' => 'Date de naissance de l\'utilisateur'
-                ),
+                'widget' => 'single_text',
+                // adds a class that can be selected in JavaScript
+                'attr' => ['class' => 'js-datepicker'],
                 'required' => false,
             ])
             ->add('imageFile', VichImageType::class, [

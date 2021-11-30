@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\{
     PasswordAuthenticatedUserInterface,
@@ -26,7 +27,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Vich\Uploadable
  * @UniqueEntity("email", message="un utilisateur ayant cette adresse email existe déja")
  */
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, Serializable
 {
     /**
      * @ORM\Id
@@ -110,8 +111,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @Vich\UploadableField(mapping="user_avatar", fileNameProperty="avatar")
      * @Assert\Image(
-     *     mimeTypes="image/jpeg",
-     *     mimeTypesMessage = "Le format doit être en jpg"
+     *     mimeTypes={"image/jpeg", "image/jpg", "image/png"},
+     *     mimeTypesMessage = "Le format doit être en jpg, jpeg ou png"
      * )
      */
     private $imageFile;
@@ -430,5 +431,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function serialize()
+    {
+        $this->avatar = base64_encode($this->avatar);
+    }
+
+    public function unserialize($serialized)
+    {
+        $this->avatar = base64_decode($this->avatar);
+
     }
 }

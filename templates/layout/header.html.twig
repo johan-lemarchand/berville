@@ -32,7 +32,7 @@
                   </li>
 
                   {% if app.user %}
-                      <div class="nav-link"><p>Bienvenue {{ app.user.lastName }}</p> <a href="{{ path('app_logout') }}">Déconnexion</a> </div>
+                      <div class="nav-link"><p class="text-blue-600">Bienvenue {{ app.user.lastName }}</p> <a class="text-red-400" href="{{ path('app_logout') }}">Déconnexion</a> </div>
                   {% else %}
                   <li {% if route_name == "app_login" %} class="nav-link-active" {% else %} class="nav-link" {% endif %}>
                       <a href='{{ path('app_login') }}'>Connexion</a>

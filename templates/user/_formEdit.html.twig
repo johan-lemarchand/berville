@@ -16,9 +16,9 @@
                     {{ form_widget(userForm.email, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
 <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(userForm.email) }}</div>
 
-{{ form_label(userForm.role, 'Rôle', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+{#{{ form_label(userForm.role, 'Rôle', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
                     {{ form_widget(userForm.role, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
-<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(userForm.role) }}</div>
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(userForm.role) }}</div>#}
 
 {{ form_label(userForm.phone, 'Téléphone', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
                     {{ form_widget(userForm.phone, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
