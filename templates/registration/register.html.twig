@@ -20,8 +20,8 @@
                     S'inscrire au club
                 </p>
                 <p class="text-sm font-medium text-gray-400">
-
-                    Vous avez déja un compte ? <a href="{{ path('app_login') }}" class="text-blue-500">Se connecter</a>
+                    Vous avez déja un compte ? <a href="{{ path('app_login') }}" class="text-blue-500">Se connecter</a><br><br>
+                    <div class="text-red-600">c'est l'administrateur qui validera votre compte, vous serez notifié par mail quand celui-ci le sera.</div>
                 </p>
                 {% for message in app.flashes('message') %}
                     <div class="alert alert-success" role="alert">{{ message }}</div>

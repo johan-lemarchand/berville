@@ -3,14 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\RoleRepository;
-
-use Doctrine\Common\Collections\{
-    ArrayCollection,
-    Collection
-};
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
 
 /**
  * @ORM\Entity(repositoryClass=RoleRepository::class)
@@ -22,7 +17,7 @@ class Role
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -32,12 +27,12 @@ class Role
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $roleString;
+    private $roleString;
 
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="role")
      */
-    private ArrayCollection $users;
+    private $users;
 
     public function __construct()
     {
@@ -89,7 +84,7 @@ class Role
     {
         if (!$this->users->contains($user)) {
             $this->users[] = $user;
-            $user->setRole($this);
+            $user->setRoles((array)$this);
         }
 
         return $this;
@@ -99,8 +94,8 @@ class Role
     {
         if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($user->getRole() === $this) {
-                $user->setRole(null);
+            if ($user->getRoles() == $this) {
+                $user->setRoles(null);
             }
         }
 

@@ -55,7 +55,7 @@
                             <p class="font-medium text-lg">Articles</p>
                         </li>
                     </a>
-                    <a href='{{ path('tags_home') }}'>
+                    <a href='{{ path('tag_home') }}'>
                         <li class="flex px-4 items-center my-4 rounded-r-full w-full py-4 bg-indigo-900">
                             <div class="w-10 h-10 mr-4 flex justify-center items-center bg-gray-50 opacity-50 rounded-lg text-purple-800">
                                 <i class="fas fa-tags"></i>
@@ -94,7 +94,7 @@
                     <p class="font-medium text-lg">Déconnexion</p>
                 </div>
             </a>
-            <a href='{{ path('home') }}'>
+            <a href='{{ path('app_homepage') }}'>
                 <div class="flex px-4 items-center my-4">
                     <div class="w-10 h-10 mr-4 flex justify-center items-center bg-gray-50 opacity-50 rounded-lg text-purple-800">
                         <i class="fas fa-pager"></i>
@@ -154,7 +154,7 @@
                     {{ knp_pagination_render(tags, 'layout/pagination.html.twig') }}
 
                     <div class="flex p-4 items-center">
-                        <a href='{{ path('tags_new') }}'>
+                        <a href='{{ path('tag_new') }}'>
                             <div class="w-12 h-12 rounded-lg mr-4 bg-green-200  flex items-center justify-center">
                                 <i class="far fa-plus-square"></i>
                             </div>

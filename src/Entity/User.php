@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\{
     PasswordAuthenticatedUserInterface,
@@ -97,14 +96,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $article;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
-     */
-    private $role;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
+
+    /**
+     * @ORM\Column(type="json")
+     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
+     */
+    private $roles = [];
 
     /**
      *
@@ -215,29 +215,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
+
     /**
      * @see UserInterface
      */
     public function getRoles(): array
     {
-        return array($this->getRole()->getRoleString());
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
-
-        return $this;
-    }
-
-    public function getRole(): ?Role
-    {
-        return $this->role;
-    }
-
-    public function setRole(?Role $role): self
-    {
-        $this->role = $role;
 
         return $this;
     }

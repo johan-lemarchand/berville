@@ -1,11 +1,11 @@
-<h1>Hi! Please confirm your email!</h1>
+<h1>Bonjour! Une membre demande à être enregistré!</h1>
 
 <p>
-    Please confirm your email address by clicking the following link: <br><br>
-    <a href="{{ signedUrl }}">Confirm my Email</a>.
-    This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+    Voici son prénom: {{ user.lastname }}, nom: {{ user.firstname }}, email: {{ user.email }}
+    Veuillez confirmer son inscription ou le refusé: <br><br>
+    <a href="{{ signedUrl }}">Accepté</a> <br>
+    ou <br>
+    Vous pouvez le supprimer directement depuis votre dashboard administrateur. <a href="https://berville-judo-club.fr/login">Refusé</a>
+    Ce lien expirera dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
 </p>
 
-<p>
-    Cheers!
-</p>
