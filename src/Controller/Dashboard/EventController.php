@@ -112,7 +112,7 @@ class EventController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'event_delete', methods: ['DELETE'])]
+    #[Route('/{id}', name: 'event_delete', methods: ['POST'])]
     public function delete(Request $request, Event $event, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
     {
         if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {

@@ -55,7 +55,7 @@
                             <p class="font-medium text-lg">Articles</p>
                         </li>
                     </a>
-                    <a href='{{ path('tags_home') }}'>
+                    <a href='{{ path('tag_home') }}'>
                         <li class="flex px-4 items-center my-4">
                             <div class="w-10 h-10 mr-4 flex justify-center items-center bg-gray-50 opacity-50 rounded-lg text-purple-800">
                                 <i class="fas fa-tags"></i>
@@ -94,7 +94,7 @@
                     <p class="font-medium text-lg">Déconnexion</p>
                 </div>
             </a>
-            <a href='{{ path('home') }}'>
+            <a href='{{ path('app_homepage') }}'>
                 <div class="flex px-4 items-center my-4">
                     <div class="w-10 h-10 mr-4 flex justify-center items-center bg-gray-50 opacity-50 rounded-lg text-purple-800">
                         <i class="fas fa-pager"></i>
@@ -124,7 +124,7 @@
                         <!--Banner image-->
                         <img class=" " src="{{ asset('uploads/article/images/'~article.picture) | default('undefined') | imagine_filter('thumbarticle') }}" alt="photo de l'article"/>
                         <!--Tag-->
-                        {% for tag in article.tags %}
+                        {% for tag in article.tag %}
                             <p class="text-indigo-500 font-semibold text-base mt-2">{{ tag.name }}</p>
                         {% endfor %}
                         <!--Title-->

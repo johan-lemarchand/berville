@@ -102,7 +102,7 @@ class RoleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="role_delete", methods={"DELETE"})
+     * @Route("/{id}", name="role_delete", methods={"POST"})
      * @param Request $request
      * @param Role $role
      * @param FlashyNotifier $flashy

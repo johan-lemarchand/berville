@@ -26,9 +26,9 @@ class EventType extends AbstractType
                 ]
             )
             ->add('date', DateType::class, [
-                'attr' => array(
-                    'placeholder' => 'Date de l\'évènement'
-                ),
+                'widget' => 'single_text',
+                // adds a class that can be selected in JavaScript
+                'attr' => ['class' => 'js-datepicker'],
                 'required' => false,
             ])
             ->add('place', TextType::class, [

@@ -23,7 +23,7 @@ class ArticleType extends AbstractType
                         'placeholder' => 'Titre de l\'article'
                     ),
                     'required' => true,
-                    'constraints' => [new NotBlank(['message' => ': ne peut pas être vide'])]
+                    'constraints' => [new NotBlank(['message' => 'ne peut pas être vide'])]
 
                 ]
             )
@@ -32,13 +32,13 @@ class ArticleType extends AbstractType
                     'placeholder' => 'Contenu de l\'article'
                 ),
                 'required' => true,
-                'constraints' => [new NotBlank(['message' => ': ne peut pas être vide'])]
+                'constraints' => [new NotBlank(['message' => 'ne peut pas être vide'])]
 
             ])
             ->add('imageFile', VichImageType::class, [
                 'required' => false,
             ])
-            ->add('tags', null, [
+            ->add('tag', null, [
                 'expanded' => true,
                 'multiple' => true,
             ])

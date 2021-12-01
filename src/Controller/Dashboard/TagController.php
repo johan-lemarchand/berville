@@ -83,7 +83,7 @@ class TagController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'tag_delete', methods: ['DELETE'])]
+    #[Route('/{id}', name: 'tag_delete', methods: ['POST'])]
     public function delete(Request $request, Tag $tag, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
     {
         if ($this->isCsrfTokenValid('delete'.$tag->getId(), $request->request->get('_token'))) {
