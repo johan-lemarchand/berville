@@ -32,7 +32,7 @@
                   </li>
 
                   {% if app.user %}
-                      <div class="nav-link"><p class="text-blue-600">Bienvenue {{ app.user.lastName }}</p> <a class="text-red-400" href="{{ path('app_logout') }}">Déconnexion</a> </div>
+                      <div class="nav-link"><p class="text-blue-600">Bienvenue {{ app.user.username }}</p> <a class="text-red-400" href="{{ path('app_logout') }}">Déconnexion</a> </div>
                   {% else %}
                   <li {% if route_name == "app_login" %} class="nav-link-active" {% else %} class="nav-link" {% endif %}>
                       <a href='{{ path('app_login') }}'>Connexion</a>
@@ -46,6 +46,7 @@
                 </ul>
             </nav>
         </section>
+
         <div class="flex flex-col-reverse items-center px-16 lg:flex-row">
             <div class="flex justify-evenly items-center p-2 mx-auto">
                 <div class="flex flex-col p-6 text-gray-900 bg-white rounded-lg shadow-lg">

@@ -12,7 +12,9 @@
                     <i class="fas fa-user"></i>
                 </div>
                 </a>
-                <p class="font-semibold text-2xl">Johan</p>
+                {% if app.user %}
+                <p class="font-semibold text-2xl">{{ user.lastName }}</p>
+                {% endif %}
             </div>
             <div>
                 <ul>
