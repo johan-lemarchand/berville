@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\{
     PasswordAuthenticatedUserInterface,
@@ -27,7 +26,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Vich\Uploadable
  * @UniqueEntity("email", message="un utilisateur ayant cette adresse email existe déja")
  */
-class User implements UserInterface, PasswordAuthenticatedUserInterface, Serializable
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
@@ -431,16 +430,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
         }
 
         return $this;
-    }
-
-    public function serialize()
-    {
-        $this->avatar = base64_encode($this->avatar);
-    }
-
-    public function unserialize($serialized)
-    {
-        $this->avatar = base64_decode($this->avatar);
-
     }
 }

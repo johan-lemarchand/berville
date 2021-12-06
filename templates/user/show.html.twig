@@ -120,7 +120,7 @@
 
                     <div class="bg-white relative shadow-xl w-5/6 md:w-4/6  lg:w-3/6 xl:w-2/6 mx-auto">
                         <div class="flex justify-center">
-                            <img src="{{ asset('uploads/user/avatar/'~user.avatar) | default('undefined')| imagine_filter('thumbuseravatar')}}" alt="photo utilisateur" class="rounded-full mx-auto absolute -top-20 w-32 h-32 shadow-2xl border-4 border-white">
+                            <img src="{{ asset('uploads/user/avatar/'~{{ user.avatar|serialize(format = 'json') }}) | default('undefined')| imagine_filter('thumbuseravatar')}}" alt="photo utilisateur" class="rounded-full mx-auto absolute -top-20 w-32 h-32 shadow-2xl border-4 border-white">
                         </div>
                         <div class="mt-16">
                             <h1 class="font-bold text-center text-3xl text-gray-900">{{ user.firstname }} {{ user.lastname }} </h1>
