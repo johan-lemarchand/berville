@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\AvatarFile;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -64,7 +65,7 @@ class UserType extends AbstractType
                 ),
                 'required' => false,
             ])
-            ->add('imageFile', VichImageType::class, [
+            ->add('avatar', VichImageType::class,[
                 'required' => false,
             ])
             ->add('license', TextType::class, [

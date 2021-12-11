@@ -13,17 +13,13 @@ use Symfony\Component\Security\Core\User\{
     PasswordAuthenticatedUserInterface,
     UserInterface
 };
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Validator\Constraints as Assert;
 
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
- * @Vich\Uploadable
  * @UniqueEntity("email", message="un utilisateur ayant cette adresse email existe déja")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -96,30 +92,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $article;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $avatar;
-
-    /**
      * @ORM\Column(type="json")
      * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
      */
     private $roles = [];
 
     /**
-     *
-     * @Vich\UploadableField(mapping="user_avatar", fileNameProperty="avatar")
-     * @Assert\Image(
-     *     mimeTypes={"image/jpeg", "image/jpg", "image/png"},
-     *     mimeTypesMessage = "Le format doit être en jpg, jpeg ou png"
-     * )
-     */
-    private $imageFile;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avatar;
 
     public function __construct()
     {
@@ -330,35 +316,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAvatar(): ?string
-    {
-        return $this->avatar;
-    }
-
-    public function setAvatar(?string $avatar): self
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    /**
-     *
-     * @param $imageFile
-     */
-    public function setImageFile($imageFile = null): void
-    {
-        $this->imageFile = $imageFile;
-
-        if ($this->imageFile instanceof UploadedFile) {
-            $this->updatedAt = new \DateTime('now');
-        }
-    }
-
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
@@ -428,6 +385,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $event->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

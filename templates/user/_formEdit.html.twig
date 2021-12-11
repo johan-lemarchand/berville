@@ -8,9 +8,9 @@
                     {{ form_widget(userForm.lastname, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
 <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(userForm.lastname) }}</div>
 
-{{ form_label(userForm.imageFile, 'Photo', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
-                    {{ form_widget(userForm.imageFile, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
-<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(userForm.imageFile) }}</div>
+{{ form_label(userForm.filename, 'Photo', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(userForm.filename, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(userForm.filename) }}</div>
 
 {{ form_label(userForm.email, 'Email', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
                     {{ form_widget(userForm.email, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
