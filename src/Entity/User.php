@@ -103,14 +103,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $updatedAt;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Images", mappedBy="user",cascade={"persist"})
+     *
      */
-    private $avatar;
+    private $images;
+    private ArrayCollection $event;
 
     public function __construct()
     {
         $this->article = new ArrayCollection();
         $this->event = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -389,14 +392,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAvatar(): ?string
+    /**
+     * @return Collection
+     */
+    public function getImages(): Collection
     {
-        return $this->avatar;
+        return $this->images;
     }
 
-    public function setAvatar(?string $avatar): self
+    public function addImage(Images $image): self
     {
-        $this->avatar = $avatar;
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Images $image): self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+            // set the owning side to null (unless already changed)
+            if ($image->getUser() === $this) {
+                $image->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@hotwired/stimulus@^3.0.0":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@hotwired/stimulus/-/stimulus-3.0.1.tgz#141f15645acaa3b133b7c247cad58ae252ffae85"
+  integrity sha512-oHsJhgY2cip+K2ED7vKUNd2P+BEswVhrCYcJ802DSsblJFv7mPFVk3cQKvm2vHgHeDVdnj7oOKrBbzp1u8D+KA==
+
+"@symfony/ux-dropzone@file:vendor/symfony/ux-dropzone/Resources/assets":
+  version "1.1.0"
+
 bootstrap-datepicker@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/bootstrap-datepicker/-/bootstrap-datepicker-1.9.0.tgz#e4bfce3fcce1967876b21dc6833ec5994aaed090"

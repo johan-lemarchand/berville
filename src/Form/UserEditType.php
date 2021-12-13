@@ -2,20 +2,18 @@
 
 namespace App\Form;
 
-use App\Entity\AvatarFile;
 use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Config\Security\ProviderConfig\EntityConfig;
-use Vich\UploaderBundle\Form\Type\VichImageType;
+
 
 class UserEditType extends AbstractType
 {
@@ -44,6 +42,11 @@ class UserEditType extends AbstractType
                 // adds a class that can be selected in JavaScript
                 'attr' => ['class' => 'js-datepicker'],
                 'required' => false,
+            ])
+            ->add('images', FileType::class,[
+                'required' => false,
+                'label' => false,
+                'mapped' => false
             ])
             ->add('address', TextType::class, [
                 'attr' => array(

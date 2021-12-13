@@ -2,11 +2,11 @@
 
 namespace App\Form;
 
-use App\Entity\AvatarFile;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Vich\UploaderBundle\Form\Type\VichImageType;
+
 
 class UserType extends AbstractType
 {
@@ -65,8 +65,10 @@ class UserType extends AbstractType
                 ),
                 'required' => false,
             ])
-            ->add('avatar', VichImageType::class,[
+            ->add('images', FileType::class,[
                 'required' => false,
+                'label' => false,
+                'mapped' => false
             ])
             ->add('license', TextType::class, [
                 'attr' => array(

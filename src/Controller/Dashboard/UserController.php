@@ -2,10 +2,12 @@
 
 namespace App\Controller\Dashboard;
 
+use App\Entity\Images;
 use App\Entity\User;
 use App\Form\UserEditType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\UploaderHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
@@ -70,12 +72,19 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, FlashyNotifier $flashy, UploaderHelper $fileUploader): Response
     {
         $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $avatar = $form->get('images')->getData();
+            if ($avatar) {
+                $avatarFileName = $fileUploader->upload($avatar);
+                $img = new Images();
+                $img->setName($avatarFileName);
+                $user->addImage($img);
+            }
             $entityManager->flush();
 
             $flashy->success('Votre utilisateur est bien edité');
@@ -89,10 +98,14 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'user_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    public function delete(Request $request, User $user, EntityManagerInterface $entityManager, FlashyNotifier $flashy, Images $avatar): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
+            $entityManager->flush();
+        }
+        if ($this->isCsrfTokenValid('delete'.$avatar->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($avatar);
             $entityManager->flush();
         }
 
