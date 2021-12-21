@@ -6,6 +6,12 @@ use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Geocoder\Exception\Exception;
+use Geocoder\Provider\GoogleMaps\GoogleMaps;
+use Geocoder\Provider\Nominatim\Nominatim;
+use Geocoder\Query\GeocodeQuery;
+use Geocoder\StatefulGeocoder;
+use Http\Adapter\Guzzle6\Client;
 use Knp\Component\Pager\PaginatorInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,33 +49,28 @@ class EventController extends AbstractController
      * @throws ServerExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
+     * @throws Exception
      */
     #[Route('/new', name: 'event_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, FlashyNotifier $flashy, HttpClientInterface $client): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
     {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
+        $httpClient = new Client();
+        $userAgent = 'https';
+        $provider = Nominatim::withOpenStreetMapServer($httpClient, $userAgent);
+        $geocoder = new StatefulGeocoder($provider, 'fr');
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $location = $event->getCity() . ', ' . $event->getZip() . ', ' . $event->getPlace();
 
-            $response = $client->request(
-                'GET',
-                'https://nominatim.openstreetmap.org/search',
-                [
-                    'query' => [
-                        'q' => $location,
-                        'format' => 'json',
-                        'limit' => '1'
-                    ]
-                ]
-            );
-            $content = json_decode((string) ($response->getContent()), true);
+            $location = $geocoder->geocodeQuery(GeocodeQuery::create($event->getCity() . ', ' . $event->getZip() . ', ' . $event->getPlace()));
 
+            $content = $location->all()[0]->getCoordinates();
             if ($content !== null) {
-                $event->setLatitude($content[0]['lat']);
-                $event->setLongitude($content[0]['lon']);
+                $event->setLatitude($content->getLatitude());
+                $event->setLongitude($content->getLongitude());
             }
 
             $entityManager->persist($event);
