@@ -3,6 +3,7 @@
 namespace App\Controller\Dashboard;
 
 use App\Entity\Event;
+use App\Entity\User;
 use App\Form\EventType;
 use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,14 +46,13 @@ class EventController extends AbstractController
     }
 
     /**
-     * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      * @throws Exception
      */
     #[Route('/new', name: 'event_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FlashyNotifier $flashy, User $user): Response
     {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
@@ -72,7 +72,7 @@ class EventController extends AbstractController
                 $event->setLatitude($content->getLatitude());
                 $event->setLongitude($content->getLongitude());
             }
-
+            
             $entityManager->persist($event);
             $entityManager->flush();
 

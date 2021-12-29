@@ -170,6 +170,8 @@
       <path value="$PROJECT_DIR$/vendor/clue/stream-filter" />
       <path value="$PROJECT_DIR$/vendor/php-http/message" />
       <path value="$PROJECT_DIR$/vendor/geocoder-php/nominatim-provider" />
+      <path value="$PROJECT_DIR$/vendor/symfony/webpack-encore-bundle" />
+      <path value="$PROJECT_DIR$/vendor/leaflet/leaflet" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />

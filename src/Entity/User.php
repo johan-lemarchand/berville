@@ -107,7 +107,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      */
     private $images;
-    private ArrayCollection $event;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="user",cascade={"persist"})
+     *
+     */
+    private $event;
 
     public function __construct()
     {

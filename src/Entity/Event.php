@@ -31,32 +31,32 @@ class Event
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $place;
+    private string $place;
 
     /**
      * @ORM\Column(type="text")
      */
-    private ?string $content;
+    private string $content;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?\DateTimeInterface $createdAt;
+    private \DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private ?\DateTimeInterface $updatedAt;
+    private \DateTimeInterface $updatedAt;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $picture;
+    private $picture;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="event")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="event")
      */
-    private ?User $user;
+    private $user;
 
     /**
      * @ORM\Column(type="integer")

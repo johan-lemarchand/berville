@@ -5,11 +5,7 @@
 {% block body %}
     {% include "layout/header.html.twig" %}
      <section class="w-full flex py-8 bg-gray-100 text-gray-900 pt-20 justify-center">
-        <div id="map"></div>
+        <div id="map" data-lat="49.0837882" data-lng="1.0723855"></div>
      </section>
     {% include "layout/footer.html.twig" %}
-{% endblock %}
-
-{% block javascripts %}
-    <script src="{{ asset('js/maps.js') }}" type="text/javascript"> </script>
 {% endblock %}
