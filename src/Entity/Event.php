@@ -31,7 +31,7 @@ class Event
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $place;
+    private ?string $place;
 
     /**
      * @ORM\Column(type="text")

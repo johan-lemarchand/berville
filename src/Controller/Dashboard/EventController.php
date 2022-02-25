@@ -3,6 +3,7 @@
 namespace App\Controller\Dashboard;
 
 use App\Entity\Event;
+use App\Entity\Images;
 use App\Entity\User;
 use App\Form\EventType;
 use App\Repository\EventRepository;
@@ -15,6 +16,7 @@ use Geocoder\StatefulGeocoder;
 use Http\Adapter\Guzzle6\Client;
 use Knp\Component\Pager\PaginatorInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,7 +66,7 @@ class EventController extends AbstractController
         $geocoder = new StatefulGeocoder($provider, 'fr');
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $event->setUser($this->getUser());
             $location = $geocoder->geocodeQuery(GeocodeQuery::create($event->getCity() . ', ' . $event->getZip() . ', ' . $event->getPlace()));
 
             $content = $location->all()[0]->getCoordinates();
@@ -104,7 +106,7 @@ class EventController extends AbstractController
             $entityManager->flush();
 
             $flashy->success('Votre évènement est bien edité');
-            return $this->redirectToRoute('event_home', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('event_show',  ['id' => $event->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('event/edit.html.twig', [
@@ -124,4 +126,19 @@ class EventController extends AbstractController
         $flashy->success('Votre évènement est bien supprimé');
         return $this->redirectToRoute('event_home', [], Response::HTTP_SEE_OTHER);
     }
+
+ /*   #[Route('/{event_id}/{image_id}', name: 'article_photo_delete')]
+    #[Entity('event', options: ['id'=>'event_id'])]
+    #[Entity('image', options: ['id'=>'image_id'])]
+    public function deletePhoto(Event $event, Images $image, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    {
+        $event->removeImage($image);
+
+        $entityManager->persist($event);
+        $entityManager->flush();
+
+        $flashy->success('Votre photo est bien supprimée');
+        return $this->redirectToRoute('event_show', ['id' => $event->getId()], Response::HTTP_SEE_OTHER);
+    }*/
 }
+

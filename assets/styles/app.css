@@ -3,4 +3,18 @@
     width: 50%;
     height: 400px;
 }
+.message-flash {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    width: 30%;
+}
 
+.message-end {
+    bottom: 20px;
+    position: fixed;
+    width: 30%;
+    right: 30px;
+    transform: translateX(+150%);
+    transition: transform 2s ease-out;
+}

@@ -10,25 +10,42 @@ class UploaderHelper
     private $targetDirectory;
     private $slugger;
 
-    public function __construct($targetDirectory, SluggerInterface $slugger)
+    public function __construct(private string $avatarDirectory, private string $articleDirectory, SluggerInterface $slugger)
     {
-        $this->targetDirectory = $targetDirectory;
         $this->slugger = $slugger;
     }
 
-    public function upload(UploadedFile $file): string
+    public function upload(UploadedFile $file, $targetDirectory): array|string
     {
-        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = $this->slugger->slug($originalFilename);
-        $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+        $ext = $file->guessExtension();
 
-        try {
-            $file->move($this->getTargetDirectory(), $fileName);
-        } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
+        if ($ext == 'jpg' || $ext == 'png' || $ext == 'bmp') {
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename = $this->slugger->slug($originalFilename);
+            $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+            try {
+                switch ($targetDirectory) {
+                    case 'avatar':
+                        $this->targetDirectory =  $this->avatarDirectory;
+                        break;
+                    case 'article':
+                        $this->targetDirectory =  $this->articleDirectory;
+                }
+                $file->move($this->targetDirectory, $fileName);
+
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+            return array(
+                'error' => false,
+                'name' => $fileName
+            );
         }
-
-        return $fileName;
+        return array(
+            'error' => true,
+            'name' => $file->getClientOriginalName()
+        );
     }
 
     public function getTargetDirectory()

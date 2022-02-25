@@ -4,7 +4,7 @@
 
 {% block body %}
     <section class="min-h-screen bg-gradient-to-br from-purple-900 to-indigo-900 flex">
-        <div  id="page-wrap" class="hidden w-1/4 lg:flex text-gray-200 flex-col">
+        <div  id="page-wrap" class="w-1/4 lg:flex text-gray-200 flex-col">
             <a href='{{ path('home_dashboard') }}'>
                 <div class="flex p-4 items-center">
                     <div class="w-12 h-12 rounded-lg mr-4 bg-gradient-to-br to-pink-500 from-pink-300 flex items-center justify-center">
@@ -122,10 +122,9 @@
                     <table class="border-collapse w-full mt-10">
                         <thead>
                         <tr>
-                            <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Titre</th>
-                            <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Contenu</th>
-                            <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Photo</th>
-                            <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Actions</th>
+                            <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300  lg:table-cell">Titre</th>
+                            <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300  lg:table-cell">Contenu</th>
+                            <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300  lg:table-cell">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -138,10 +137,6 @@
                             <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                                 <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Contenu</span>
                                 {{ article.content|u.truncate(20, '...', false) }}
-                            </td>
-                            <td class="w-full lg:w-auto  p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
-                                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Photo</span>
-                                <img class="inline-block" src="{{ asset('uploads/article/images/'~article.picture) | imagine_filter('thumbarticletable') }}" alt="photo de l'article"/>
                             </td>
                             <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                                 <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Action</span>

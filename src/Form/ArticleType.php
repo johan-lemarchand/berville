@@ -5,13 +5,13 @@ namespace App\Form;
 use App\Entity\Article;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ArticleType extends AbstractType
 {
@@ -35,12 +35,16 @@ class ArticleType extends AbstractType
                 'constraints' => [new NotBlank(['message' => 'ne peut pas être vide'])]
 
             ])
-            ->add('imageFile', VichImageType::class, [
+            ->add('images', FileType::class, [
                 'required' => false,
+                'multiple' => true,
+                'label' => false,
+                'mapped' => false,
+
             ])
             ->add('tag', null, [
                 'expanded' => true,
-                'multiple' => true,
+                'multiple' => true
             ])
         ;
     }

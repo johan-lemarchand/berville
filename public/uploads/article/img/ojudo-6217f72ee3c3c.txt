@@ -1,0 +1,15 @@
+event:title,date,place,content,categorieId
+generate, 1N user, 11 event
+user:firstname,lastname,picture,address,phone number,mail,password,license
+create, 1N user,11 article
+article:title,content,createdAt,updatedAt,author,comment,tag,picture
+
+join, 1N event, 0N categorie
+categorie:name,weight,gender
+group, 11 user, 0N categorie
+training:date,title,content,duration,categorieId
+have, 1N user, 1N training
+class, 11 user, 1N role
+role:name
+
+

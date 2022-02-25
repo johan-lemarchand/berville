@@ -3,15 +3,17 @@
 namespace App\Controller\Dashboard;
 
 use App\Entity\Article;
+use App\Entity\Images;
 use App\Form\ArticleType;
 
 use App\Repository\ArticleRepository;
 
+use App\Service\UploaderHelper;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Knp\Component\Pager\PaginatorInterface;
 
-use MercurySeries\FlashyBundle\FlashyNotifier;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{
     Request,
@@ -40,17 +42,18 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/new', name: 'article_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $article->setUser($this->getUser());
             $entityManager->persist($article);
             $entityManager->flush();
 
-            $flashy->success('Votre article est bien créé');
+            $this->addFlash('success', 'Votre article est bien créé');
             return $this->redirectToRoute('article', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -69,16 +72,29 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'article_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Article $article, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    public function edit(Request $request, Article $article, EntityManagerInterface $entityManager, UploaderHelper $fileUploader): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            $flashy->success('Votre article est bien edité');
-            return $this->redirectToRoute('article', [], Response::HTTP_SEE_OTHER);
+            $articleImg = $form->get('images')->getData();
+            if ($articleImg) {
+                foreach ($articleImg as $picture) {
+                    $articleFileName = $fileUploader->upload($picture, 'article');
+                    if ($articleFileName['error']) {
+                        $this->addFlash('error', 'le format de l\'image '.$articleFileName['name'].' n\'est pas correct');
+                        return $this->redirectToRoute('article_show', ['id' => $article->getId()], Response::HTTP_SEE_OTHER);
+                    } else {
+                        $img = new Images();
+                        $img->setName($articleFileName['name']);
+                        $article->addImage($img);
+                        $entityManager->flush();
+                        $this->addFlash('success', $articleFileName['name'].' est bien enregistré');
+                    }
+                }
+            }
+            return $this->redirectToRoute('article_show', ['id' => $article->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('article/edit.html.twig', [
@@ -88,14 +104,25 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/{id}', name: 'article_delete', methods: ['POST'])]
-    public function delete(Request $request, Article $article, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    public function delete(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
             $entityManager->remove($article);
             $entityManager->flush();
         }
-
-        $flashy->success('Votre article est bien supprimé');
+        $this->addFlash('success','Votre article est bien supprimé');
         return $this->redirectToRoute('article', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{article_id}/{image_id}', name: 'article_photo_delete')]
+    #[Entity('article', options: ['id'=>'article_id'])]
+    #[Entity('image', options: ['id'=>'image_id'])]
+    public function deletePhoto(Article $article, Images $image, EntityManagerInterface $entityManager): Response
+    {
+        $article->removeImage($image);
+        $entityManager->flush();
+
+        $this->addFlash('success','Votre photo est bien supprimée');
+        return $this->redirectToRoute('article_show', ['id' => $article->getId()], Response::HTTP_SEE_OTHER);
     }
 }

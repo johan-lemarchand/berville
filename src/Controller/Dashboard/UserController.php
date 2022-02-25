@@ -80,7 +80,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $avatar = $form->get('images')->getData();
             if ($avatar) {
-                $avatarFileName = $fileUploader->upload($avatar);
+                $avatarFileName = $fileUploader->upload($avatar, 'avatar');
                 $img = new Images();
                 $img->setName($avatarFileName);
                 $user->addImage($img);

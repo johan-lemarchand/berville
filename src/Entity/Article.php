@@ -46,20 +46,6 @@ class Article
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $picture;
-
-    /**
-     *
-     * @Assert\Image(
-     *     mimeTypes="image/jpeg",
-     *     mimeTypesMessage = "Le format doit être en jpg"
-     * )
-     */
-    private $imageFile;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private ?string $slug;
 
     /**
@@ -74,10 +60,16 @@ class Article
      */
     private  $tag;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="article", cascade={"persist"})
+     */
+    private $images;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->tag = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
     public function __toString(): string
     {
@@ -137,17 +129,6 @@ class Article
         return $this;
     }
 
-    public function getPicture(): ?string
-    {
-        return $this->picture;
-    }
-
-    public function setPicture(?string $picture): void
-    {
-        $this->picture = $picture;
-
-    }
-
     public function getSlug(): ?string
     {
         return $this->slug;
@@ -200,20 +181,33 @@ class Article
     }
 
     /**
-     *
-     * @param $imageFile
+     * @return Collection
      */
-    public function setImageFile($imageFile = null): void
+    public function getImages(): Collection
     {
-        $this->imageFile = $imageFile;
-
-        if ($this->imageFile instanceof UploadedFile) {
-            $this->updatedAt = new \DateTime('now');
-        }
+        return $this->images;
     }
 
-    public function getImageFile(): ?File
+    public function addImage(Images $image): self
     {
-        return $this->imageFile;
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Images $image): self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+            // set the owning side to null (unless already changed)
+            if ($image->getArticle() === $this) {
+                $image->setArticle(null);
+            }
+        }
+
+        return $this;
     }
 }

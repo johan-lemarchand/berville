@@ -10,6 +10,6 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
-import Map from './map';
 
+import Map from './js/map';
 Map.init();
