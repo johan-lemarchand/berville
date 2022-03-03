@@ -10,7 +10,7 @@ class UploaderHelper
     private $targetDirectory;
     private $slugger;
 
-    public function __construct(private string $avatarDirectory, private string $articleDirectory, SluggerInterface $slugger)
+    public function __construct(private string $avatarDirectory, private string $articleDirectory, private string $mainArticleDirectory, SluggerInterface $slugger)
     {
         $this->slugger = $slugger;
     }
@@ -31,6 +31,9 @@ class UploaderHelper
                         break;
                     case 'article':
                         $this->targetDirectory =  $this->articleDirectory;
+                        break;
+                    case 'mainArticle':
+                        $this->targetDirectory =  $this->mainArticleDirectory;
                 }
                 $file->move($this->targetDirectory, $fileName);
 

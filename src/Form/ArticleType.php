@@ -42,6 +42,13 @@ class ArticleType extends AbstractType
                 'mapped' => false,
 
             ])
+            ->add('mainImage', FileType::class, [
+                'required' => false,
+                'multiple' => false,
+                'label' => false,
+                'mapped' => false,
+
+            ])
             ->add('tag', null, [
                 'expanded' => true,
                 'multiple' => true

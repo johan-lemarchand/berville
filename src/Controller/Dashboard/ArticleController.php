@@ -5,15 +5,15 @@ namespace App\Controller\Dashboard;
 use App\Entity\Article;
 use App\Entity\Images;
 use App\Form\ArticleType;
-
 use App\Repository\ArticleRepository;
-
 use App\Service\UploaderHelper;
+
 use Doctrine\ORM\EntityManagerInterface;
 
 use Knp\Component\Pager\PaginatorInterface;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{
     Request,
@@ -42,7 +42,7 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/new', name: 'article_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UploaderHelper $fileUploader): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -50,6 +50,37 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $article->setUser($this->getUser());
+            $articleImg = $form->get('images')->getData();
+            $articleMainImg = $form->get('mainImage')->getData();
+            if ($articleImg) {
+                foreach ($articleImg as $picture) {
+                    $articleFileName = $fileUploader->upload($picture, 'article');
+                    if ($articleFileName['error']) {
+                        $this->addFlash('error', 'le format de l\'image '.$articleFileName['name'].' n\'est pas correct');
+                        return $this->redirectToRoute('article_show', ['id' => $article->getId()], Response::HTTP_SEE_OTHER);
+                    } else {
+                        $img = new Images();
+                        $img->setName($articleFileName['name']);
+                        $article->addImage($img);
+                        $entityManager->flush();
+                        $this->addFlash('success', $articleFileName['name'].' est bien enregistré');
+                    }
+                }
+            }
+
+            if ($articleMainImg) {
+                $articleFileName = $fileUploader->upload($articleMainImg, 'mainArticle');
+                    if ($articleFileName['error']) {
+                        $this->addFlash('error', 'le format de l\'image '.$articleFileName['name'].' n\'est pas correct');
+                        return $this->redirectToRoute('article_show', ['id' => $article->getId()], Response::HTTP_SEE_OTHER);
+                    } else {
+                        $img = new Images();
+                        $img->setName($articleFileName['name']);
+                        $article->addMainImage($img);
+                        $entityManager->flush();
+                        $this->addFlash('success', $articleFileName['name'].' est bien enregistré');
+                    }
+            }
             $entityManager->persist($article);
             $entityManager->flush();
 
@@ -79,6 +110,7 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $articleImg = $form->get('images')->getData();
+            $articleMainImg = $form->get('mainImage')->getData();
             if ($articleImg) {
                 foreach ($articleImg as $picture) {
                     $articleFileName = $fileUploader->upload($picture, 'article');
@@ -92,6 +124,20 @@ class ArticleController extends AbstractController
                         $entityManager->flush();
                         $this->addFlash('success', $articleFileName['name'].' est bien enregistré');
                     }
+                }
+            }
+
+            if ($articleMainImg) {
+                $articleFileName = $fileUploader->upload($articleMainImg, 'mainArticle');
+                if ($articleFileName['error']) {
+                    $this->addFlash('error', 'le format de l\'image '.$articleFileName['name'].' n\'est pas correct');
+                    return $this->redirectToRoute('article_show', ['id' => $article->getId()], Response::HTTP_SEE_OTHER);
+                } else {
+                    $img = new Images();
+                    $img->setName($articleFileName['name']);
+                    $article->addMainImage($img);
+                    $entityManager->flush();
+                    $this->addFlash('success', $articleFileName['name'].' est bien enregistré');
                 }
             }
             return $this->redirectToRoute('article_show', ['id' => $article->getId()], Response::HTTP_SEE_OTHER);
@@ -114,7 +160,7 @@ class ArticleController extends AbstractController
         return $this->redirectToRoute('article', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{article_id}/{image_id}', name: 'article_photo_delete')]
+    #[Route('/delete/photo/{article_id}/{image_id}', name: 'article_photo_delete')]
     #[Entity('article', options: ['id'=>'article_id'])]
     #[Entity('image', options: ['id'=>'image_id'])]
     public function deletePhoto(Article $article, Images $image, EntityManagerInterface $entityManager): Response
@@ -122,7 +168,28 @@ class ArticleController extends AbstractController
         $article->removeImage($image);
         $entityManager->flush();
 
-        $this->addFlash('success','Votre photo est bien supprimée');
+        if (Response::HTTP_OK) {
+            $this->addFlash('success','Votre photo est bien supprimée');
+        } else {
+            $this->addFlash('error','Votre photo n\'est pas supprimée, une erreur est survenue');
+        }
+        return $this->redirectToRoute('article_show', ['id' => $article->getId()], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/delete/main/{article_id}/{image_id}', name: 'article_main_photo_delete')]
+    #[Entity('article', options: ['id'=>'article_id'])]
+    #[Entity('image', options: ['id'=>'image_id'])]
+    public function deleteMainPhoto(Article $article, Images $image, EntityManagerInterface $entityManager): Response
+    {
+        $article->removeMainImage($image);
+        $entityManager->flush();
+
+        if (Response::HTTP_OK) {
+            $this->addFlash('success','Votre photo est bien supprimée');
+        } else {
+            $this->addFlash('error','Votre photo n\'est pas supprimée, une erreur est survenue');
+        }
+
         return $this->redirectToRoute('article_show', ['id' => $article->getId()], Response::HTTP_SEE_OTHER);
     }
 }

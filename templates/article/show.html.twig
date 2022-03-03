@@ -166,6 +166,10 @@
                                 {{ article.content }}
                             </p>
                         </div>
+                        {% for mainImage in article.mainImage %}
+                            <img class="flex" src="{{ asset('uploads/mainArticle/img/'~mainImage.name) | default('undefined') | imagine_filter('thumbarticle') }}" alt="photo principale de l'article"/>
+                            <a href="{{ path('article_main_photo_delete', {'image_id':mainImage.id, 'article_id':mainImage.mainArticle.id}) }}">supprimer la photo</a>
+                        {% endfor %}
                         {% for image in article.images %}
                             <img class="flex" src="{{ asset('uploads/article/img/'~image.name) | default('undefined') | imagine_filter('thumbarticle') }}" alt="photo de l'article"/>
                             <a href="{{ path('article_photo_delete', {'image_id':image.id, 'article_id':article.id}) }}">supprimer la photo</a>

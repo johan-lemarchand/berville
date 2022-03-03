@@ -65,11 +65,17 @@ class Article
      */
     private $images;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="mainArticle", cascade={"persist"})
+     */
+    private $mainImage;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->tag = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->mainImage = new ArrayCollection();
     }
     public function __toString(): string
     {
@@ -208,6 +214,35 @@ class Article
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getMainImage(): Collection
+    {
+        return $this->mainImage;
+    }
+
+    public function addMainImage(Images $mainImage): self
+    {
+        if (!$this->mainImage->contains($mainImage)) {
+            $this->mainImage[] = $mainImage;
+            $mainImage->setMainArticle($this);
+        }
+        return $this;
+    }
+
+    public function removeMainImage(Images $mainImage): self
+    {
+        if ($this->mainImage->contains($mainImage)) {
+            $this->mainImage->removeElement($mainImage);
+            // set the owning side to null (unless already changed)
+            if ($mainImage->getMainArticle() === $this) {
+                $mainImage->setMainArticle(null);
+            }
+        }
         return $this;
     }
 }
