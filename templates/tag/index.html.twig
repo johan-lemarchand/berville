@@ -136,12 +136,12 @@
                                 <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                                     <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Action</span>
                                     <div class="m-6 space-x-3 flex justify-center">
-                                        <a href="{{ path('tags_edit', {'id': tag.id}) }}">
+                                        <a href="{{ path('tag_edit', {'id': tag.id}) }}">
                                             <button aria-label="Editer le tag" data-balloon-pos="up" class="inline-block p-3 text-center text-white transition bg-blue-700  shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none">
                                                 <i class="far fa-edit"></i>
                                             </button>
                                         </a>
-                                        {{ include('tags/_delete_form.html.twig') }}
+                                        {{ include('tag/_delete_form.html.twig') }}
                                     </div>
                                 </td>
                             </tr>

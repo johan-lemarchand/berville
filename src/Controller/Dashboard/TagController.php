@@ -9,7 +9,6 @@ use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Knp\Component\Pager\PaginatorInterface;
-use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{
     Request,
@@ -36,7 +35,7 @@ class TagController extends AbstractController
     }
 
     #[Route('/new', name: 'tag_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $tag = new Tag();
         $form = $this->createForm(TagType::class, $tag);
@@ -46,7 +45,7 @@ class TagController extends AbstractController
             $entityManager->persist($tag);
             $entityManager->flush();
 
-            $flashy->success('Votre tag est bien créé');
+            // $flashy->success('Votre tag est bien créé');
             return $this->redirectToRoute('tag_home', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -65,7 +64,7 @@ class TagController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'tag_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Tag $tag, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    public function edit(Request $request, Tag $tag, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
@@ -73,7 +72,7 @@ class TagController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            $flashy->success('Votre tag est bien edité');
+            // $flashy->success('Votre tag est bien edité');
             return $this->redirectToRoute('tag_home', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -84,14 +83,14 @@ class TagController extends AbstractController
     }
 
     #[Route('/{id}', name: 'tag_delete', methods: ['POST'])]
-    public function delete(Request $request, Tag $tag, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    public function delete(Request $request, Tag $tag, EntityManagerInterface $entityManager ): Response
     {
         if ($this->isCsrfTokenValid('delete'.$tag->getId(), $request->request->get('_token'))) {
             $entityManager->remove($tag);
             $entityManager->flush();
         }
 
-        $flashy->success('Votre tag est bien supprimé');
+        // $flashy->success('Votre tag est bien supprimé');
         return $this->redirectToRoute('tag_home', [], Response::HTTP_SEE_OTHER);
     }
 }

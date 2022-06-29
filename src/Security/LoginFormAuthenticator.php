@@ -2,7 +2,6 @@
 
 namespace App\Security;
 
-use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +22,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator, private FlashyNotifier $flashy)
+    public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
     }
 
@@ -48,7 +47,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        $this->flashy->success('Bienvenue vous êtes connecté');
+        // @todo Ne pas oublier le message flash
         return new RedirectResponse($this->urlGenerator->generate('app_homepage'));
     }
 

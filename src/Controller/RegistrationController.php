@@ -8,7 +8,6 @@ use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
-use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +23,7 @@ class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
 
-    public function __construct(EmailVerifier $emailVerifier, private FlashyNotifier $flashy)
+    public function __construct(EmailVerifier $emailVerifier)
     {
         $this->emailVerifier = $emailVerifier;
     }
@@ -59,7 +58,7 @@ class RegistrationController extends AbstractController
                     ->context(['user' => $user])
                 ));
 
-            $this->flashy->info('Un email est envoyé à l\'administrateur pour qu\'il valide votre compte');
+            // $this->flashy->info('Un email est envoyé à l\'administrateur pour qu\'il valide votre compte');
 
             return $this->redirectToRoute('app_login');
         }
@@ -94,11 +93,11 @@ class RegistrationController extends AbstractController
             $this->emailVerifier->handleEmailConfirmation($request, $user);
 
         } catch (VerifyEmailExceptionInterface $exception) {
-           $this->flashy->error('Votre lien de vérification n\est pas bon');
+           //$this->flashy->error('Votre lien de vérification n\est pas bon');
             return $this->redirectToRoute('app_register');
         }
 
-        $this->flashy->success('Vous-avez bien validé votre membre');
+        //$this->flashy->success('Vous-avez bien validé votre membre');
         $email = (new TemplatedEmail())
             ->from('club-judo-berville@test.com')
             ->to($user->getEmail())

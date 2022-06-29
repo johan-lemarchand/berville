@@ -15,7 +15,6 @@
         "geocoder-php/cache-provider": "^4.3",
         "geocoder-php/nominatim-provider": "^5.5",
         "knplabs/knp-paginator-bundle": "^5.7",
-        "leaflet/leaflet": "^1.4",
         "liip/imagine-bundle": "^2.7",
         "php-http/guzzle6-adapter": "^2.0",
         "php-http/message": "^1.12",
@@ -74,7 +73,11 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
     },
     "autoload": {
         "psr-4": {

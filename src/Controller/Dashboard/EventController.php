@@ -15,7 +15,6 @@ use Geocoder\Query\GeocodeQuery;
 use Geocoder\StatefulGeocoder;
 use Http\Adapter\Guzzle6\Client;
 use Knp\Component\Pager\PaginatorInterface;
-use MercurySeries\FlashyBundle\FlashyNotifier;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,7 +53,7 @@ class EventController extends AbstractController
      * @throws Exception
      */
     #[Route('/new', name: 'event_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, FlashyNotifier $flashy, User $user): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, /*User $user*/): Response
     {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
@@ -78,7 +77,7 @@ class EventController extends AbstractController
             $entityManager->persist($event);
             $entityManager->flush();
 
-            $flashy->success('Votre évènement est bien créé');
+            //$flashy->success('Votre évènement est bien créé');
             return $this->redirectToRoute('event_home', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -97,7 +96,7 @@ class EventController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'event_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Event $event, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    public function edit(Request $request, Event $event, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
@@ -105,7 +104,7 @@ class EventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            $flashy->success('Votre évènement est bien edité');
+            //$flashy->success('Votre évènement est bien edité');
             return $this->redirectToRoute('event_show',  ['id' => $event->getId()], Response::HTTP_SEE_OTHER);
         }
 
@@ -116,14 +115,14 @@ class EventController extends AbstractController
     }
 
     #[Route('/{id}', name: 'event_delete', methods: ['POST'])]
-    public function delete(Request $request, Event $event, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    public function delete(Request $request, Event $event, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
             $entityManager->remove($event);
             $entityManager->flush();
         }
 
-        $flashy->success('Votre évènement est bien supprimé');
+        //$flashy->success('Votre évènement est bien supprimé');
         return $this->redirectToRoute('event_home', [], Response::HTTP_SEE_OTHER);
     }
 
