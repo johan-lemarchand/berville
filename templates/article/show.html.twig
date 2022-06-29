@@ -117,22 +117,6 @@
                                     <span class="font-medium">Danger alert!</span>  {{ message }}
                                 </div>
                             {% endif %}
-
-                          {#  <div class="p-4 mb-4 text-sm text-blue-700 bg-blue-100 rounded-lg dark:bg-blue-200 dark:text-blue-800" role="alert">
-                                <span class="font-medium">Info alert!</span> Change a few things up and try submitting again.
-                            </div>
-                            <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
-                                <span class="font-medium">Danger alert!</span> Change a few things up and try submitting again.
-                            </div>
-                            <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
-                                <span class="font-medium">Success alert!</span> Change a few things up and try submitting again.
-                            </div>
-                            <div class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800" role="alert">
-                                <span class="font-medium">Warning alert!</span> Change a few things up and try submitting again.
-                            </div>
-                            <div class="p-4 mb-4 text-sm text-gray-700 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-300" role="alert">
-                                <span class="font-medium">Dark alert!</span> Change a few things up and try submitting again.
-                            </div>#}
                         {% endfor %}
                     {% endfor %}
                 </div>
@@ -150,42 +134,34 @@
                     </button>
                 </div>
                 <div class="flex flex-col lg:flex-row justify-center">
-
-                    <div class="mt-6 md:p-8 p-2 bg-white">
-                        <!--Banner image-->
-
-                        <!--Tag-->
-                        {% for tag in article.tag %}
-                            <p class="text-indigo-500 font-semibold text-base mt-2">{{ tag.name }}</p>
-                        {% endfor %}
-                        <!--Title-->
-                        <h1 class="font-semibold text-gray-900 leading-none text-xl mt-1 capitalize truncate">{{ article.title }}</h1>
-                        <!--Description-->
-                        <div class="max-w-full">
-                            <p class="text-base font-medium tracking-wide text-gray-600 mt-1">
-                                {{ article.content }}
-                            </p>
-                        </div>
-                        {% for mainImage in article.mainImage %}
-                            <img class="flex" src="{{ asset('uploads/mainArticle/img/'~mainImage.name) | default('undefined') | imagine_filter('thumbarticle') }}" alt="photo principale de l'article"/>
-                            <a href="{{ path('article_main_photo_delete', {'image_id':mainImage.id, 'article_id':mainImage.mainArticle.id}) }}">supprimer la photo</a>
-                        {% endfor %}
-                        {% for image in article.images %}
-                            <img class="flex" src="{{ asset('uploads/article/img/'~image.name) | default('undefined') | imagine_filter('thumbarticle') }}" alt="photo de l'article"/>
-                            <a href="{{ path('article_photo_delete', {'image_id':image.id, 'article_id':article.id}) }}">supprimer la photo</a>
-                        {% endfor %}
-                        <div class="flex items-center space-x-2 mt-20">
-                            <!--Author's profile photo-->
-                            <img class="w-10 h-10 object-cover object-center rounded-full" src="https://randomuser.me/api/portraits/men/54.jpg" alt="random user"/>
-                            <div>
-                                <!--Author name-->
-                                <p class="text-gray-900 font-semibold">{{ article.user.firstname }} {{ article.user.lastname }}</p>
-                                <p class="text-gray-500 font-semibold text-sm">
-                                    {{ article.createdAt ? article.createdAt|date('Y-m-d') : '' }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <article class="mx-auto group w-full shadow-2xl max-w-md pb-8 rounded-b-2xl transform duration-500 hover:-translate-y-2 cursor-pointer">
+                                <section class="content bg-cover bg-center h-64 rounded-2xl" {% for mainImage in article.mainImage %}style="background-image: url('uploads/mainArticle/img/{{ mainImage.name }}');"{% endfor %}>
+                                    <div class="flex items-end w-full h-full bg-black bg-opacity-20 text-white text-sm font-bold  p-4 rounded-2xl">
+                                        <div class="w-1/2 flex items-center">
+                                        </div>
+                                    </div>
+                                </section>
+                                <div class="my-5 p-4 flex">
+                                    <div class="w-full flex justify-between space-x-1">
+                                        {% for image in article.images %}
+                                            <img class="w-10 h-10 rounded-md" src="{{ asset('uploads/article/img/'~image.name) | default('undefined') | imagine_filter('thumbarticle') }}" alt="photo de l'article">
+                                            <a href="{{ path('article_photo_delete', {'image_id':image.id, 'article_id':article.id}) }}">supprimer la photo</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="mt-14 px-4">
+                                    {% for tags in article.tag %}
+                                        <div class="text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-blue-200 text-blue-700 rounded-full">
+                                            {{ tags.name }}
+                                        </div>
+                                    {% endfor %}
+                                    <h2 class="mt-4 text-base font-medium text-gray-400">{{ article.title }}</h2>
+                                    <p class="mt-2 text-2xl text-gray-700">{{ article.content }}  </p>
+                                </div>
+                                <div class="flex justify-start px-5 mb-2 mt-5 text-sm text-gray-600">
+                                    <a class="cursor-pointer hover:underline" target="_blank" href="https://unsplash.com/photos/zNN6ubHmruI">{{ article.user }}</a>
+                                </div>
+                            </article>
                 </div>
                 <div class="m-6 space-x-3 flex justify-center">
                     <a href="{{ path('article') }}">
@@ -220,3 +196,39 @@
         }
     </script>
 {% endblock %}
+
+{#<div class="mt-6 md:p-8 p-2 bg-white">
+    <!--Banner image-->
+
+    <!--Tag-->
+    {% for tag in article.tag %}
+        <p class="text-indigo-500 font-semibold text-base mt-2">{{ tag.name }}</p>
+    {% endfor %}
+    <!--Title-->
+    <h1 class="font-semibold text-gray-900 leading-none text-xl mt-1 capitalize truncate">{{ article.title }}</h1>
+    <!--Description-->
+    <div class="max-w-full">
+        <p class="text-base font-medium tracking-wide text-gray-600 mt-1">
+            {{ article.content }}
+        </p>
+    </div>
+    {% for mainImage in article.mainImage %}
+        <img class="flex" src="{{ asset('uploads/mainArticle/img/'~mainImage.name) | default('undefined') | imagine_filter('thumbarticle') }}" alt="photo principale de l'article"/>
+        <a href="{{ path('article_main_photo_delete', {'image_id':mainImage.id, 'article_id':mainImage.mainArticle.id}) }}">supprimer la photo</a>
+    {% endfor %}
+    {% for image in article.images %}
+        <img class="flex" src="{{ asset('uploads/article/img/'~image.name) | default('undefined') | imagine_filter('thumbarticle') }}" alt="photo de l'article"/>
+        <a href="{{ path('article_photo_delete', {'image_id':image.id, 'article_id':article.id}) }}">supprimer la photo</a>
+    {% endfor %}
+    <div class="flex items-center space-x-2 mt-20">
+        <!--Author's profile photo-->
+        <img class="w-10 h-10 object-cover object-center rounded-full" src="https://randomuser.me/api/portraits/men/54.jpg" alt="random user"/>
+        <div>
+            <!--Author name-->
+            <p class="text-gray-900 font-semibold">{{ article.user.firstname }} {{ article.user.lastname }}</p>
+            <p class="text-gray-500 font-semibold text-sm">
+                {{ article.createdAt ? article.createdAt|date('Y-m-d') : '' }}
+            </p>
+        </div>
+    </div>
+</div>#}
