@@ -1,4 +1,7 @@
 {
+    "clue/stream-filter": {
+        "version": "v1.5.0"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
@@ -23,6 +26,9 @@
     "doctrine/common": {
         "version": "3.2.0"
     },
+    "doctrine/data-fixtures": {
+        "version": "1.5.1"
+    },
     "doctrine/dbal": {
         "version": "3.1.4"
     },
@@ -43,6 +49,18 @@
             "./config/packages/test/doctrine.yaml",
             "./src/Entity/.gitignore",
             "./src/Repository/.gitignore"
+        ]
+    },
+    "doctrine/doctrine-fixtures-bundle": {
+        "version": "3.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "1f5514cfa15b947298df4d771e694e578d4c204d"
+        },
+        "files": [
+            "./src/DataFixtures/AppFixtures.php"
         ]
     },
     "doctrine/doctrine-migrations-bundle": {
@@ -85,38 +103,62 @@
     "egulias/email-validator": {
         "version": "3.1.2"
     },
+    "fakerphp/faker": {
+        "version": "v1.16.0"
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
-    "illuminate/collections": {
-        "version": "v8.73.2"
+    "geocoder-php/cache-provider": {
+        "version": "4.3.0"
     },
-    "illuminate/contracts": {
-        "version": "v8.73.2"
+    "geocoder-php/common-http": {
+        "version": "4.4.0"
     },
-    "illuminate/macroable": {
-        "version": "v8.73.2"
+    "geocoder-php/nominatim-provider": {
+        "version": "5.5.1"
     },
-    "illuminate/support": {
-        "version": "v8.73.2"
+    "guzzlehttp/guzzle": {
+        "version": "6.5.5"
     },
-    "jms/metadata": {
-        "version": "2.6.1"
+    "guzzlehttp/promises": {
+        "version": "1.5.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.8.3"
+    },
+    "imagine/imagine": {
+        "version": "1.2.4"
+    },
+    "knplabs/knp-components": {
+        "version": "v3.3.0"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.7.0"
     },
     "laminas/laminas-code": {
         "version": "4.4.3"
     },
-    "mercuryseries/flashy": {
-        "version": "1.0.4"
+    "liip/imagine-bundle": {
+        "version": "2.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.8",
+            "ref": "d1227d002b70d1a1f941d91845fcd7ac7fbfc929"
+        }
+    },
+    "lorenzo/pinky": {
+        "version": "1.0.5"
+    },
+    "mercuryseries/flashy-bundle": {
+        "version": "v4.0.0"
     },
     "monolog/monolog": {
         "version": "2.3.5"
     },
     "myclabs/deep-copy": {
         "version": "1.10.2"
-    },
-    "nesbot/carbon": {
-        "version": "2.54.0"
     },
     "nikic/php-parser": {
         "version": "v4.13.1"
@@ -126,6 +168,24 @@
     },
     "phar-io/version": {
         "version": "3.1.0"
+    },
+    "php-http/discovery": {
+        "version": "1.14.1"
+    },
+    "php-http/guzzle6-adapter": {
+        "version": "v2.0.2"
+    },
+    "php-http/httplug": {
+        "version": "2.2.0"
+    },
+    "php-http/message": {
+        "version": "1.12.0"
+    },
+    "php-http/message-factory": {
+        "version": "v1.0.2"
+    },
+    "php-http/promise": {
+        "version": "1.1.0"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -177,6 +237,12 @@
     "psr/event-dispatcher": {
         "version": "1.0.0"
     },
+    "psr/http-client": {
+        "version": "1.0.1"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/link": {
         "version": "1.1.1"
     },
@@ -185,6 +251,9 @@
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
@@ -601,31 +670,90 @@
             "./config/routes/dev/web_profiler.yaml"
         ]
     },
+    "symfony/webpack-encore-bundle": {
+        "version": "1.13",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.9",
+            "ref": "d2d1e09675fff3fa4193aa9950a7c39934524a25"
+        },
+        "files": [
+            "./assets/app.js",
+            "./assets/bootstrap.js",
+            "./assets/controllers.json",
+            "./assets/controllers/hello_controller.js",
+            "./assets/styles/app.css",
+            "./config/packages/assets.yaml",
+            "./config/packages/prod/webpack_encore.yaml",
+            "./config/packages/test/webpack_encore.yaml",
+            "./config/packages/webpack_encore.yaml",
+            "./package.json",
+            "./webpack.config.js"
+        ]
+    },
     "symfony/yaml": {
         "version": "v5.3.11"
+    },
+    "symfonycasts/reset-password-bundle": {
+        "version": "1.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "97c1627c0384534997ae1047b93be517ca16de43"
+        },
+        "files": [
+            "./config/packages/reset_password.yaml"
+        ]
+    },
+    "symfonycasts/verify-email-bundle": {
+        "version": "v1.6.0"
     },
     "theseer/tokenizer": {
         "version": "1.2.1"
     },
+    "tijsverkoyen/css-to-inline-styles": {
+        "version": "2.2.3"
+    },
+    "twig/cssinliner-extra": {
+        "version": "v3.3.4"
+    },
     "twig/extra-bundle": {
         "version": "v3.3.3"
+    },
+    "twig/inky-extra": {
+        "version": "v3.3.4"
+    },
+    "twig/string-extra": {
+        "version": "v3.3.4"
     },
     "twig/twig": {
         "version": "v3.3.3"
     },
-    "vich/uploader-bundle": {
-        "version": "1.18",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "1.7",
-            "ref": "c4f5755b37fb65b9c6a3cbdae91205c15a137ed4"
-        }
-    },
-    "voku/portable-ascii": {
-        "version": "1.5.6"
-    },
     "webmozart/assert": {
         "version": "1.10.0"
+    },
+    "willdurand/geocoder": {
+        "version": "4.4.0"
+    },
+    "zenstruck/assert": {
+        "version": "v1.0.0"
+    },
+    "zenstruck/callback": {
+        "version": "v1.4.1"
+    },
+    "zenstruck/foundry": {
+        "version": "1.14",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.9",
+            "ref": "26a9e6291d5fc0bfd1d673bc1d6cfe3c582c7678"
+        },
+        "files": [
+            "./config/packages/dev/zenstruck_foundry.yaml",
+            "./config/packages/test/zenstruck_foundry.yaml"
+        ]
     }
 }

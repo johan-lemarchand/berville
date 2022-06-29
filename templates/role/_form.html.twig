@@ -1,0 +1,13 @@
+{{ form_start(roleForm, {'attr': {'novalidate': 'novalidate', 'class': 'flex text-gray-400 font-medium flex-col'}}) }}
+
+{{ form_label(roleForm.name, 'nom du rôle', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(roleForm.name, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(roleForm.name) }}</div>
+
+{{ form_label(roleForm.roleString, 'rôle', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(roleForm.roleString, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(roleForm.roleString) }}</div>
+
+<button class="h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg p-4 text-white mt-4">{{ button_label|default('Enregistrer') }}</button>
+
+{{ form_end(roleForm) }}

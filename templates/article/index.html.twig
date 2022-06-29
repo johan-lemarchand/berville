@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les articles du club{% endblock %}
+
+{% block body %}
+    {% include "layout/header.html.twig" %}
+    <section class="container mx-auto p-10 md:py-20 px-5 md:p-10">
+        <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10">
+             {% for article in articles %}
+                 <article class="mx-auto group w-full shadow-2xl max-w-md pb-8 rounded-b-2xl transform duration-500 hover:-translate-y-2 cursor-pointer">
+                     {{ dump(article) }}
+                    <section class="content bg-cover bg-center h-64 rounded-2xl"  {% for mainImage in article.mainImage %}style="background-image: url({{ mainImage.name }});"{% endfor %}>
+                        <div class="flex items-end w-full h-full bg-black bg-opacity-20 text-white text-sm font-bold  p-4 rounded-2xl">
+                            <div class="w-1/2 flex items-center">
+                                {#<svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                                <span>4116</span>#}
+                            </div>
+                            <div class="w-1/2 flex items-center flex-row-reverse">
+                                <svg class="w-6 h-6 ml-2 place-items-end group-hover:animate-ping absolute " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                </svg>
+                                <svg class="w-6 h-6 ml-2 place-items-end relative" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                </svg>
+                                <span class="place-items-end">0</span>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="my-5 p-4 flex">
+                        <div class="w-full flex justify-between space-x-1">
+                            {% for image in article.images %}
+                            <img class="w-10 h-10 rounded-md" src="{{ asset('uploads/article/img/'~image.name) | default('undefined') | imagine_filter('thumbarticle') }}" alt="photo de l'article">
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="mt-14 px-4">
+                        {% for tags in article.tag %}
+                        <div class="text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-blue-200 text-blue-700 rounded-full">
+                            {{ tags.name }}
+                        </div>
+                        {% endfor %}
+                        <h2 class="mt-4 text-base font-medium text-gray-400">{{ article.title }}</h2>
+                        <p class="mt-2 text-2xl text-gray-700">{{ article.content }}  </p>
+                    </div>
+                     <div class="flex justify-start px-5 mb-2 mt-5 text-sm text-gray-600">
+                         <a class="cursor-pointer hover:underline" target="_blank" href="https://unsplash.com/photos/zNN6ubHmruI">{{ article.user }}</a>
+                     </div>
+                </article>
+             {% endfor %}
+        </section>
+    </section>
+    {% include "layout/footer.html.twig" %}
+{% endblock %}
