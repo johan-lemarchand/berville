@@ -3,8 +3,10 @@ import 'leaflet/dist/leaflet.css'
 
 export default class Map {
 
-		static init () {
-				let map = document.querySelector('#map')
+		static init (id) {
+
+				let map = document.querySelector('#map'+id)
+
 				if (map === null) {
 						return;
 				}
@@ -13,7 +15,8 @@ export default class Map {
 						iconUrl: '/images/marker-icon.png',
 				})
 				let center = [map.dataset.lat, map.dataset.lng]
-				map = L.map('map').setView(center, 15)
+
+				map = L.map('map'+id).setView(center, 15)
 				let token = 'pk.eyJ1Ijoiam9qbzI3MDAwIiwiYSI6ImNreHA5NXVxZTA3a2IyeXB0ZGI2OXVtbW0ifQ.KwNT1uD_HVIPa8jfEcHGaQ'
 				L.tileLayer(`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${token}`, {
 						tileSize: 512,
@@ -27,3 +30,5 @@ export default class Map {
 		}
 
 }
+
+//var map = L.map('map').setView([51.505, -0.09], 13);

@@ -12,4 +12,8 @@ import './styles/app.css';
 import './bootstrap';
 
 import Map from './js/map';
-Map.init();
+
+const events = document.querySelectorAll(".event-map")
+events.forEach(event => {
+    Map.init(event.dataset.id);
+})

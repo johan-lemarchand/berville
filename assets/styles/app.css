@@ -1,7 +1,11 @@
-#map {
+.event-container {
+    min-height: 220px;
+    min-width: 700px;
+}
+
+.event-map {
     margin: auto;
     width: 50%;
-    height: 400px;
 }
 .message-flash {
     position: fixed;
