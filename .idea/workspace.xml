@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="99424812-b86d-4ef8-8b25-40ae0db5e148" name="Changes" comment="update new version and correct mistakes">
+      <change afterPath="$PROJECT_DIR$/public/images/back-icon.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/map.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/map.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/styles/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/EventsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/EventsController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/maps/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/maps/index.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -218,7 +217,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/matanna/Documents/Dev/projets_externes/berville",
+    "last_opened_file_path": "/home/matanna/Documents/Dev/projets_externes/berville/public/images",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -229,6 +228,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public/images" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -248,6 +248,7 @@
       <updated>1656508612629</updated>
       <workItem from="1656508614199" duration="6627000" />
       <workItem from="1656921967834" duration="8857000" />
+      <workItem from="1657015671328" duration="11892000" />
     </task>
     <task id="LOCAL-00001" summary="update new version and correct mistakes">
       <created>1656514690437</created>

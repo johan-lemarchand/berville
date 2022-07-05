@@ -13,7 +13,30 @@ import './bootstrap';
 
 import Map from './js/map';
 
-const events = document.querySelectorAll(".event-map")
+const eventsMap = document.querySelectorAll(".event-map")
+eventsMap.forEach(event => {
+    Map.init(event.parentElement.dataset.id);
+})
+
+const events = document.querySelectorAll(".event")
 events.forEach(event => {
-    Map.init(event.dataset.id);
+    event.addEventListener('click', () => {
+        event.classList.add('rotate-and-hide')
+        const eventMap = document.querySelector('#map'+ event.parentElement.dataset.id)
+        eventMap.classList.add('rotate-and-display')
+        const img = event.parentElement.querySelector('.back')
+        img.classList.add('display-back')
+    })
+})
+
+const backs = document.querySelectorAll(".back")
+backs.forEach(back => {
+    back.addEventListener('click', () => {
+        console.log(back)
+        back.classList.remove('display-back')
+        const event = back.parentElement.querySelector('.event')
+        event.classList.remove('rotate-and-hide')
+        const eventMap = back.parentElement.querySelector('.event-map')
+        eventMap.classList.remove('rotate-and-display')
+    })
 })
