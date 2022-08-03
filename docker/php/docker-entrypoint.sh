@@ -18,7 +18,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 	# The first time volumes are mounted, the project needs to be recreated
 	if [ ! -f composer.json ]; then
 		CREATION=1
-		composer create-project "$SKELETON $SYMFONY_VERSION" tmp --stability="$STABILITY" --prefer-dist --no-progress --no-interaction --no-install
+		composer create-project "$SKELETON $SYMFONY_VERSION" tmp --stability="$STABILITY" --prefer-dist --no-progress --no-interaction --no-install --ignore-platform-req=ext-xsl --ignore-platform-req=ext-xsl
 
 		cd tmp
 		composer require "php:>=$PHP_VERSION"
@@ -31,7 +31,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 
 	if [ "$APP_ENV" != 'prod' ]; then
 		rm -f .env.local.php
-		composer install --prefer-dist --no-progress --no-interaction
+		composer install --prefer-dist --no-progress --no-interaction --ignore-platform-req=ext-xsl --ignore-platform-req=ext-xsl
 	fi
 
 	if grep -q ^DATABASE_URL= .env; then

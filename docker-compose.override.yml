@@ -4,12 +4,12 @@ version: "3.4"
 services:
   php:
     volumes:
-      # The "cached" option has no effect on Linux but improves performance on Mac
-      - ./:/srv/app:rw,cached
+      - ./:/srv/app
       - ./docker/php/conf.d/symfony.dev.ini:/usr/local/etc/php/conf.d/symfony.ini
-      # If you develop on Mac you can remove the var/ directory from the bind-mount
-      # for better performance by enabling the next line 
+      # If you develop on Mac or Windows you can remove the var/ and vendor/ directories
+      #  from the bind-mount for better performance by enabling the next 2 lines
       # - /srv/app/var
+      # - /srv/app/vendor
     environment:
       APP_ENV: dev
 
@@ -20,3 +20,4 @@ services:
 
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
+
