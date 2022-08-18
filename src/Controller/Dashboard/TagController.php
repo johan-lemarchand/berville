@@ -9,6 +9,7 @@ use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Knp\Component\Pager\PaginatorInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{
     Request,
@@ -32,7 +33,7 @@ class TagController extends AbstractController
         return $this->render('tag/index.html.twig', [
             'tags' => $tags,
         ]);
-    }
+    } // index
 
     #[Route('/new', name: 'tag_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -53,7 +54,7 @@ class TagController extends AbstractController
             'tag' => $tag,
             'tagForm' => $form,
         ]);
-    }
+    } // new
 
     #[Route('/{id}', name: 'tag_show', methods: ['GET'])]
     public function show(Tag $tag): Response
@@ -61,7 +62,7 @@ class TagController extends AbstractController
         return $this->render('tag/show.html.twig', [
             'tag' => $tag,
         ]);
-    }
+    } // show
 
     #[Route('/{id}/edit', name: 'tag_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Tag $tag, EntityManagerInterface $entityManager): Response
@@ -80,7 +81,7 @@ class TagController extends AbstractController
             'tag' => $tag,
             'tagForm' => $form,
         ]);
-    }
+    } // edit
 
     #[Route('/{id}', name: 'tag_delete', methods: ['POST'])]
     public function delete(Request $request, Tag $tag, EntityManagerInterface $entityManager ): Response
@@ -92,5 +93,5 @@ class TagController extends AbstractController
 
         // $flashy->success('Votre tag est bien supprimé');
         return $this->redirectToRoute('tag_home', [], Response::HTTP_SEE_OTHER);
-    }
-}
+    } // delete
+} // TagController

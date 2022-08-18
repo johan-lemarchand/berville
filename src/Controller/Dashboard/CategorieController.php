@@ -5,10 +5,14 @@ namespace App\Controller\Dashboard;
 use App\Entity\Categorie;
 use App\Form\CategorieType;
 use App\Repository\CategorieRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\{
+    Request,
+    Response
+};
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -21,7 +25,7 @@ class CategorieController extends AbstractController
         return $this->render('categorie/index.html.twig', [
             'categories' => $categorieRepository->findAll(),
         ]);
-    }
+    } // index
 
     #[Route('/new', name: 'categorie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -41,7 +45,7 @@ class CategorieController extends AbstractController
             'categorie' => $categorie,
             'form' => $form,
         ]);
-    }
+    } // new
 
     #[Route('/{id}', name: 'categorie_show', methods: ['GET'])]
     public function show(Categorie $categorie): Response
@@ -49,7 +53,7 @@ class CategorieController extends AbstractController
         return $this->render('categorie/show.html.twig', [
             'categorie' => $categorie,
         ]);
-    }
+    } // show
 
     #[Route('/{id}/edit', name: 'categorie_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Categorie $categorie, EntityManagerInterface $entityManager): Response
@@ -67,7 +71,7 @@ class CategorieController extends AbstractController
             'categorie' => $categorie,
             'form' => $form,
         ]);
-    }
+    } // edit
 
     #[Route('/{id}', name: 'categorie_delete', methods: ['POST'])]
     public function delete(Request $request, Categorie $categorie, EntityManagerInterface $entityManager): Response
@@ -78,5 +82,5 @@ class CategorieController extends AbstractController
         }
 
         return $this->redirectToRoute('categorie_index', [], Response::HTTP_SEE_OTHER);
-    }
-}
+    } // delete
+} // CategorieController

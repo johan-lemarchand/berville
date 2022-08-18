@@ -39,7 +39,7 @@ class ArticleController extends AbstractController
         return $this->render('article/home.html.twig', [
             'articles' => $articles,
         ]);
-    }
+    } // index
 
     #[Route('/new', name: 'article_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UploaderHelper $fileUploader): Response
@@ -92,7 +92,7 @@ class ArticleController extends AbstractController
             'article' => $article,
             'articleForm' => $form,
         ]);
-    }
+    } // new
 
     #[Route('/{id}', name: 'article_show', methods: ['GET'])]
     public function show(Article $article): Response
@@ -100,7 +100,7 @@ class ArticleController extends AbstractController
         return $this->render('article/show.html.twig', [
             'article' => $article,
         ]);
-    }
+    } // show
 
     #[Route('/{id}/edit', name: 'article_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Article $article, EntityManagerInterface $entityManager, UploaderHelper $fileUploader): Response
@@ -147,7 +147,7 @@ class ArticleController extends AbstractController
             'article' => $article,
             'articleForm' => $form,
         ]);
-    }
+    } // edit
 
     #[Route('/{id}', name: 'article_delete', methods: ['POST'])]
     public function delete(Request $request, Article $article, EntityManagerInterface $entityManager): Response
@@ -174,7 +174,7 @@ class ArticleController extends AbstractController
             $this->addFlash('error','Votre photo n\'est pas supprimée, une erreur est survenue');
         }
         return $this->redirectToRoute('article_show', ['id' => $article->getId()], Response::HTTP_SEE_OTHER);
-    }
+    } // deletePhoto
 
     #[Route('/delete/main/{article_id}/{image_id}', name: 'article_main_photo_delete')]
     #[Entity('article', options: ['id'=>'article_id'])]
@@ -191,5 +191,5 @@ class ArticleController extends AbstractController
         }
 
         return $this->redirectToRoute('article_show', ['id' => $article->getId()], Response::HTTP_SEE_OTHER);
-    }
-}
+    } // deleteMainPhoto
+} // ArticleController

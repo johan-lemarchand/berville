@@ -2,19 +2,29 @@
 
 namespace App\Controller\Dashboard;
 
-use App\Entity\Images;
-use App\Entity\User;
-use App\Form\UserEditType;
-use App\Form\UserType;
+use App\Entity\{
+    Images,
+    User
+};
+use App\Form\{
+    UserEditType,
+    UserType
+};
 use App\Repository\UserRepository;
 use App\Service\UploaderHelper;
+
 use Doctrine\ORM\EntityManagerInterface;
+
 use Knp\Component\Pager\PaginatorInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\{
+    Request,
+    Response
+};
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -32,10 +42,10 @@ class UserController extends AbstractController
         return $this->render('user/home.html.twig', [
             'users' => $users,
         ]);
-    }
+    } // index
 
     #[Route('/new', name: 'user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, FlashyNotifier $flashy): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -43,16 +53,17 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setRoles(['ROLE_USER']);
+            $hashedPassword = $passwordHasher->hashPassword(
+                $user,
+                $form->get('password')->getData()
+            );
             $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
+                $hashedPassword
             );
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $flashy->success('Votre utilisateur est bien créé');
+            //$flashy->success('Votre utilisateur est bien créé');
             return $this->redirectToRoute('home_user', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -60,7 +71,7 @@ class UserController extends AbstractController
             'user' => $user,
             'userForm' => $form,
         ]);
-    }
+    } // new
 
     #[Route('/{id}', name: 'user_show', methods: ['GET'])]
     public function show(User $user): Response
@@ -68,10 +79,10 @@ class UserController extends AbstractController
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
-    }
+    } // show
 
     #[Route('/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, FlashyNotifier $flashy, UploaderHelper $fileUploader): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UploaderHelper $fileUploader): Response
     {
         $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
@@ -86,7 +97,7 @@ class UserController extends AbstractController
             }
             $entityManager->flush();
 
-            $flashy->success('Votre utilisateur est bien edité');
+            //$flashy->success('Votre utilisateur est bien edité');
             return $this->redirectToRoute('home_user', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -94,10 +105,10 @@ class UserController extends AbstractController
             'user' => $user,
             'userForm' => $form,
         ]);
-    }
+    } // edit
 
     #[Route('/{id}', name: 'user_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, EntityManagerInterface $entityManager, FlashyNotifier $flashy, Images $avatar): Response
+    public function delete(Request $request, User $user, EntityManagerInterface $entityManager, Images $avatar): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
@@ -108,7 +119,7 @@ class UserController extends AbstractController
             $entityManager->flush();
         }
 
-        $flashy->success('Votre utilisateur est bien supprimé');
+        //$flashy->success('Votre utilisateur est bien supprimé');
         return $this->redirectToRoute('home_user', [], Response::HTTP_SEE_OTHER);
-    }
-}
+    } // delete
+} // UserController

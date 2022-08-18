@@ -44,7 +44,7 @@ class EventController extends AbstractController
         return $this->render('event/home.html.twig', [
             'events' => $events,
         ]);
-    }
+    } // index
 
     /**
      * @throws ServerExceptionInterface
@@ -85,7 +85,7 @@ class EventController extends AbstractController
             'event' => $event,
             'eventForm' => $form,
         ]);
-    }
+    } // new
 
     #[Route('/{id}', name: 'event_show', methods: ['GET'])]
     public function show(Event $event): Response
@@ -93,7 +93,7 @@ class EventController extends AbstractController
         return $this->render('event/show.html.twig', [
             'event' => $event,
         ]);
-    }
+    } // show
 
     #[Route('/{id}/edit', name: 'event_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Event $event, EntityManagerInterface $entityManager): Response
@@ -112,7 +112,7 @@ class EventController extends AbstractController
             'event' => $event,
             'eventForm' => $form,
         ]);
-    }
+    } // edit
 
     #[Route('/{id}', name: 'event_delete', methods: ['POST'])]
     public function delete(Request $request, Event $event, EntityManagerInterface $entityManager): Response
@@ -124,7 +124,7 @@ class EventController extends AbstractController
 
         //$flashy->success('Votre évènement est bien supprimé');
         return $this->redirectToRoute('event_home', [], Response::HTTP_SEE_OTHER);
-    }
+    } // delete
 
  /*   #[Route('/{event_id}/{image_id}', name: 'article_photo_delete')]
     #[Entity('event', options: ['id'=>'event_id'])]
@@ -139,5 +139,5 @@ class EventController extends AbstractController
         $flashy->success('Votre photo est bien supprimée');
         return $this->redirectToRoute('event_show', ['id' => $event->getId()], Response::HTTP_SEE_OTHER);
     }*/
-}
+} // EventController
 
