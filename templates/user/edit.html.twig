@@ -117,6 +117,21 @@
                     </button>
                 </div>
                 <div class="mt-8 flex flex-col justify-center lg:flex-row">
+                    <div id="flashy" class="message-flash">
+                        {% for label, messages in app.flashes %}
+                            {% for message in messages %}
+                                {% if label == 'success' %}
+                                    <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+                                        <span class="font-medium">Success alert!</span>   {{ message }}
+                                    </div>
+                                {% elseif label == 'error' %}
+                                    <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                                        <span class="font-medium">Danger alert!</span>  {{ message }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
                     {{ include('user/_formEdit.html.twig', {'button_label': 'Editer'}|default('undefined')) }}
                 </div>
                 <div class="m-6 space-x-3 flex justify-center">

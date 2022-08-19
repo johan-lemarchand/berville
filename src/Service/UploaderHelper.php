@@ -5,12 +5,13 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+
 class UploaderHelper
 {
     private $targetDirectory;
-    private $slugger;
+    private SluggerInterface $slugger;
 
-    public function __construct(private string $avatarDirectory, private string $articleDirectory, private string $mainArticleDirectory, SluggerInterface $slugger)
+    public function __construct(private readonly string $avatarDirectory, private readonly string $articleDirectory, private readonly string $mainArticleDirectory, private readonly string $eventDirectory, SluggerInterface $slugger)
     {
         $this->slugger = $slugger;
     }
@@ -34,6 +35,9 @@ class UploaderHelper
                         break;
                     case 'mainArticle':
                         $this->targetDirectory =  $this->mainArticleDirectory;
+                        break;
+                    case 'event':
+                        $this->targetDirectory =  $this->eventDirectory;
                 }
                 $file->move($this->targetDirectory, $fileName);
 
