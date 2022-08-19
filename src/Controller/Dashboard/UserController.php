@@ -2,10 +2,8 @@
 
 namespace App\Controller\Dashboard;
 
-use App\Entity\{
-    Images,
-    User
-};
+use App\Entity\{Article, Images, User};
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use App\Form\{
     UserEditType,
     UserType
@@ -92,7 +90,7 @@ class UserController extends AbstractController
             if ($avatar) {
                 $avatarFileName = $fileUploader->upload($avatar, 'avatar');
                 $img = new Images();
-                $img->setName($avatarFileName);
+                $img->setName($avatarFileName['name']);
                 $user->addImage($img);
             }
             $entityManager->flush();
@@ -122,4 +120,20 @@ class UserController extends AbstractController
         //$flashy->success('Votre utilisateur est bien supprimé');
         return $this->redirectToRoute('home_user', [], Response::HTTP_SEE_OTHER);
     } // delete
+
+    #[Route('/delete/avatar/{user_id}/{image_id}', name: 'delete_avatar')]
+    #[Entity('user', options: ['id'=>'user_id'])]
+    #[Entity('image', options: ['id'=>'image_id'])]
+    public function deletePhoto(User $user, Images $image, EntityManagerInterface $entityManager): Response
+    {
+        $user->removeImage($image);
+        $entityManager->flush();
+
+        if (Response::HTTP_OK) {
+            $this->addFlash('success','Votre photo est bien supprimée');
+        } else {
+            $this->addFlash('error','Votre photo n\'est pas supprimée, une erreur est survenue');
+        }
+        return $this->redirectToRoute('user_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
+    } // deletePhoto
 } // UserController

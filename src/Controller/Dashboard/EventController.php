@@ -4,18 +4,24 @@ namespace App\Controller\Dashboard;
 
 use App\Entity\Event;
 use App\Entity\Images;
-use App\Entity\User;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Service\UploaderHelper;
+
 use Doctrine\ORM\EntityManagerInterface;
+
 use Geocoder\Exception\Exception;
 use Geocoder\Provider\GoogleMaps\GoogleMaps;
 use Geocoder\Provider\Nominatim\Nominatim;
 use Geocoder\Query\GeocodeQuery;
 use Geocoder\StatefulGeocoder;
+
 use Http\Adapter\Guzzle6\Client;
+
 use Knp\Component\Pager\PaginatorInterface;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,8 +29,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 
 #[Route('/admin/event')]
@@ -53,7 +57,7 @@ class EventController extends AbstractController
      * @throws Exception
      */
     #[Route('/new', name: 'event_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, /*User $user*/): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
@@ -96,12 +100,19 @@ class EventController extends AbstractController
     } // show
 
     #[Route('/{id}/edit', name: 'event_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Event $event, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Event $event, EntityManagerInterface $entityManager, UploaderHelper $fileUploader): Response
     {
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $eventImg = $form->get('image')->getData();
+            if ($eventImg) {
+                $eventFileName = $fileUploader->upload($eventImg, 'event');
+                $img = new Images();
+                $img->setName($eventFileName['name']);
+                $event->addImage($img);
+            }
             $entityManager->flush();
 
             //$flashy->success('Votre évènement est bien edité');
@@ -126,18 +137,18 @@ class EventController extends AbstractController
         return $this->redirectToRoute('event_home', [], Response::HTTP_SEE_OTHER);
     } // delete
 
- /*   #[Route('/{event_id}/{image_id}', name: 'article_photo_delete')]
+    #[Route('/{event_id}/{image_id}', name: 'event_photo_delete')]
     #[Entity('event', options: ['id'=>'event_id'])]
     #[Entity('image', options: ['id'=>'image_id'])]
-    public function deletePhoto(Event $event, Images $image, EntityManagerInterface $entityManager, FlashyNotifier $flashy): Response
+    public function deletePhoto(Event $event, Images $image, EntityManagerInterface $entityManager): Response
     {
         $event->removeImage($image);
 
         $entityManager->persist($event);
         $entityManager->flush();
 
-        $flashy->success('Votre photo est bien supprimée');
+        //$flashy->success('Votre photo est bien supprimée');
         return $this->redirectToRoute('event_show', ['id' => $event->getId()], Response::HTTP_SEE_OTHER);
-    }*/
+    }
 } // EventController
 

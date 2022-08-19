@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Event;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -56,9 +57,11 @@ class EventType extends AbstractType
                 'required' => true,
                 'constraints' => [new NotBlank(['message' => 'ne peut pas être vide'])]
             ])
-            /*->add('picture', VichImageType::class, [
+            ->add('image', FileType::class,[
                 'required' => false,
-            ])*/
+                'label' => false,
+                'mapped' => false
+            ])
         ;
     }
 

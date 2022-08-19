@@ -8,7 +8,7 @@
         <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10">
              {% for article in articles %}
                  <article class="mx-auto group w-full shadow-2xl max-w-md pb-8 rounded-b-2xl transform duration-500 hover:-translate-y-2 cursor-pointer">
-                    <section class="content bg-cover bg-center h-64 rounded-2xl"  {% for mainImage in article.mainImage %}style="background-image: url({{ 'uploads/mainArticle/img/' ~ mainImage.name }});"{% endfor %}>
+                    <section class="content bg-cover bg-center h-64 rounded-2xl" {% for mainImage in article.mainImage %}style="background-image: url({{ 'uploads/mainArticle/img/' ~ mainImage.name }});"{% endfor %}>
                         <div class="flex items-end w-full h-full bg-black bg-opacity-20 text-white text-sm font-bold  p-4 rounded-2xl">
                             <div class="w-1/2 flex items-center">
                                 {#<svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

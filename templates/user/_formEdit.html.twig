@@ -17,12 +17,11 @@
     {{ form_widget(userForm.images, {'attr': {'class': 'hidden  border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
     <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(userForm.images) }}</div>
     {% if app.request.attributes.get('_route') == 'user_edit' %}
-
         <h2>Photo</h2>
         {% for image in user.images %}
             <div>
                 <img src="{{ asset('uploads/user/avatar/'~image.name) }}" alt="" width="150">
-                <a href="{{ path('delete-avatar', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}">Supprimer</a>
+                <a href="{{ path('delete_avatar', {'image_id':image.id, 'user_id':user.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}">Supprimer</a>
             </div>
         {% endfor %}
     {% endif %}

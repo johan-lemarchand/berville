@@ -24,6 +24,25 @@
                     {{ form_widget(eventForm.date, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
 <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(eventForm.date)}} </div>
 
+{% if event.images is empty %}
+    {{ form_label(eventForm.image, 'Photo de l\'évènement', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+        {{ form_widget(eventForm.image, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+    <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(eventForm.image) }}</div>
+{% else %}
+    {{ form_label(eventForm.image, 'Photo de l\'évènement', {'label_attr': {'class': 'hidden uppercase mt-4'}, errors: []}) }}
+    {{ form_widget(eventForm.image, {'attr': {'class': 'hidden border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+    <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(eventForm.image) }}</div>
+    {% if app.request.attributes.get('_route') == 'event_edit' %}
+        <h2>Photo de l'évènement</h2>
+        {% for image in event.images %}
+            <div>
+                <img src="{{ asset('uploads/event/img/'~image.name) }}" alt="" width="150">
+                <a href="{{ path('event_photo_delete', {'image_id':image.id, 'event_id':event.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}">Supprimer</a>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endif %}
+
 <button class="h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg p-4 text-white mt-4">{{ button_label|default('Enregistrer') }}</button>
 
 {{ form_end(eventForm) }}
