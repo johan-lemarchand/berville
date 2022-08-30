@@ -10,6 +10,10 @@ parameters:
     mainArticleImg_directory: '%kernel.project_dir%/public/uploads/mainArticle/img'
     eventImg_directory: '%kernel.project_dir%/public/uploads/event/img'
 services:
+    twig.extension.intl:
+        class: Twig\Extensions\IntlExtension
+        tags:
+            - { name: twig.extension }
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

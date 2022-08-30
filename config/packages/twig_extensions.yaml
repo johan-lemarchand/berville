@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true
+
+
+    twig\Extensions\ArrayExtension: null
+    Twig\Extensions\DateExtension: null
+    twig\Extensions\IntlExtension: null
+    Twig\Extensions\TextExtension: null

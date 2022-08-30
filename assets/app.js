@@ -32,7 +32,6 @@ events.forEach(event => {
 const backs = document.querySelectorAll(".back")
 backs.forEach(back => {
     back.addEventListener('click', () => {
-        console.log(back)
         back.classList.remove('display-back')
         const event = back.parentElement.querySelector('.event')
         event.classList.remove('rotate-and-hide')
