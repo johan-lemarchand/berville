@@ -4,8 +4,30 @@
 
 {% block body %}
     {% include "layout/header.html.twig" %}
-    <h2 class="text-1xl mt-8 ml-8 font-bold leading-7 text-gray-700 sm:text-3xl sm:truncate">Les évènements du mois de {{ "now"|localizeddate('none', 'none', null, null, 'MMMM') }}</h2>
-    <div class="flex flex-wrap gap-10 p-8">
+    <h2 class="text-1xl mt-8 ml-8 font-bold leading-7 text-gray-700 sm:text-3xl sm:truncate">Les prochains évènements {#du mois de {{ "now"|localizeddate('none', 'none', null, null, 'MMMM') }}#}</h2>
+
+    {% set months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'] %}
+    <form>
+        <select name="months" id="months">
+            <option value="">Mois</option>
+            {% for month in months %}
+                <option value="{{ loop.index }}">{{ month }}</option>
+            {% endfor %}
+        </select>
+        {% set year = (events[0].date|localizeddate('none', 'none', null, null, 'Y')) %}
+        <select name="years" id="years">
+            <option value="">Année</option>
+            {% for i in year-5..year+5  %}
+                <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select>
+        <button type="button" id="choiceMonth">Valider</button>
+    </form>
+    <div id="cardEventContainer">
+        {% include "maps/card.html.twig" %}
+    </div>
+
+    {#<div class="flex flex-wrap gap-10 p-8">
         {% for event in events %}
             <div>
                 <div class="font-bold pb-2 text-blue-700 content-center">{{ event.date|date("d/m/Y") }}</div>
@@ -24,6 +46,6 @@
                 </div>
             </div>
         {% endfor %}
-    </div>
+    </div>#}
     {% include "layout/footer.html.twig" %}
 {% endblock %}

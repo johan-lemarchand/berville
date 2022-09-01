@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 
 use Doctrine\Common\Collections\ArrayCollection;
+
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,37 +30,44 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *@Groups({"events"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"events"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups({"events"})
      */
     private $birthday;
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups({"events"})
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=60)
+     * @Groups({"events"})
      */
     private ?string $firstname;
 
     /**
      * @ORM\Column(type="string", length=90)
+     * @Groups({"events"})
      */
     private ?string $lastname;
 
     /**
      * @ORM\Column(type="string", nullable=true, length=10)
+     * @Groups({"events"})
      * @Assert\Regex(
      *     pattern="/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/")
      * @Assert\Length(min=10, minMessage="Votre numéro de téléphone est incorrect", max=10, maxMessage="Votre numéro de téléphone est incorrect" )
@@ -68,42 +77,50 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(max=255, maxMessage="le nombre de caractère maximal est dépassé", min=10, minMessage="le nombre de caractère est trop minime" )
+     * @Groups({"events"})
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=35, nullable=true)
+     * @Groups({"events"})
      */
     private $license;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"events"})
      */
     private ?bool $status;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"events"})
      */
     private bool $isVerified = false;
 
     /**
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="user")
+     * @Groups({"events"})
      */
     private $article;
 
     /**
      * @ORM\Column(type="json")
      * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
+     * @Groups({"events"})
      */
     private $roles = [];
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"events"})
      */
     private $updatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Images", mappedBy="user",cascade={"persist"})
+     * @Groups({"events"})
      *
      */
     private $images;

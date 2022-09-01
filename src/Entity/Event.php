@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\EventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,72 +18,85 @@ class Event
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"events"})
      */
     private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"events"})
      */
     private ?string $title;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups({"events"})
      */
     private $date;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"events"})
      */
     private ?string $place;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"events"})
      */
     private string $content;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"events"})
      */
     private \DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"events"})
      */
     private \DateTimeInterface $updatedAt;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"events"})
      */
     private $picture;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="event")
+     * @Groups({"events"})
      */
     private $user;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"events"})
      */
     private $zip;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"events"})
      */
     private $city;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"events"})
      */
     private $longitude;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"events"})
      */
     private $latitude;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Images", mappedBy="event",cascade={"persist"})
-     *
+     *@Groups({"events"})
      */
     private $images;
 

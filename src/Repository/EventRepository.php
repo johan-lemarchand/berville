@@ -22,9 +22,24 @@ class EventRepository extends ServiceEntityRepository
     public function findAllByDate()
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT e FROM App\Entity\Event e ORDER BY e.date DESC')
+            ->createQuery('SELECT e FROM App\Entity\Event e ORDER BY e.date ASC')
             ->getResult()
             ;
+    }
+
+    public function findEventByMonth(Array $date) {
+
+        ['month' => $month, 'year' => $year] = $date;
+
+        $allEvents = $this->getEntityManager()
+            ->createQuery('SELECT e FROM App\Entity\Event e ORDER BY e.date ASC')
+            ->getResult()
+            ;
+        $events = array_filter($allEvents, function($el) use ($year, $month) {
+           return $el->getDate()->format('Y') === $year && (int)$el->getDate()->format('m') === (int)$month;
+        });
+
+        return [...$events];
     }
 
     // /**
