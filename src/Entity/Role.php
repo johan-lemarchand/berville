@@ -7,33 +7,19 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=RoleRepository::class)
- */
+#[ORM\Entity(repositoryClass: RoleRepository::class)]
 class Role
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $name;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $roleString;
-
-    /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="role")
-     */
-    private $users;
-
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $roleString;
+    #[ORM\OneToMany(mappedBy: 'role', targetEntity: User::class)]
+    private ArrayCollection $users;
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -42,36 +28,30 @@ class Role
     {
         return $this->name;
     }
-
     public function getId(): ?int
     {
         return $this->id;
     }
-
     public function getName(): ?string
     {
         return $this->name;
     }
-
     public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
-
     public function getRoleString(): ?string
     {
         return $this->roleString;
     }
-
     public function setRoleString(string $role_string): self
     {
         $this->roleString = $role_string;
 
         return $this;
     }
-
     /**
      * @return Collection
      */
@@ -79,7 +59,6 @@ class Role
     {
         return $this->users;
     }
-
     public function addUser(User $user): self
     {
         if (!$this->users->contains($user)) {
@@ -89,13 +68,12 @@ class Role
 
         return $this;
     }
-
     public function removeUser(User $user): self
     {
         if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
             if ($user->getRoles() == $this) {
-                $user->setRoles(null);
+                $user->setRoles((array)null);
             }
         }
 

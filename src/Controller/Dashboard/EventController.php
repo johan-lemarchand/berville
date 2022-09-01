@@ -77,7 +77,7 @@ class EventController extends AbstractController
                 $event->setLatitude($content->getLatitude());
                 $event->setLongitude($content->getLongitude());
             }
-            
+
             $entityManager->persist($event);
             $entityManager->flush();
 

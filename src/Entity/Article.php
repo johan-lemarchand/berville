@@ -3,71 +3,47 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Validator\Constraints as Assert;
 
 
-/**
- * @ORM\Entity(repositoryClass=ArticleRepository::class)
- */
+#[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(length: 255)]
     private ?string $title;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: 'text')]
     private ?string $content;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $updatedAt;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $slug;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="article")
-     *
-     */
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'article')]
     private ?User $user;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="articles", orphanRemoval=true)
-     * @ORM\JoinTable(name="article_tag")
-     */
-    private  $tag;
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'articles', orphanRemoval: true)]
+    #[ORM\JoinTable(name: 'article_tag')]
+    private $tag;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="article", cascade={"persist"})
-     */
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Images::class, cascade: ['persist'])]
     private $images;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="mainArticle", cascade={"persist"})
-     */
+    #[ORM\OneToMany(mappedBy: 'mainArticle', targetEntity: Images::class, cascade: ['persist'])]
     private $mainImage;
 
     public function __construct()

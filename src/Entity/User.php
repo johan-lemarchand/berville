@@ -17,180 +17,121 @@ use Symfony\Component\Security\Core\User\{
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-/**
- * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="`user`")
- * @UniqueEntity("email", message="un utilisateur ayant cette adresse email existe déja")
- */
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: '`user`')]
+#[UniqueEntity('email', message: 'un utilisateur ayant cette adresse email existe déja')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private $email;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $birthday;
-
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    private ?string $email;
+    #[ORM\Column(type: 'date', nullable: true)]
+    private mixed $birthday;
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
      */
-    private $password;
-
-    /**
-     * @ORM\Column(type="string", length=60)
-     */
+    #[ORM\Column(type: 'string')]
+    private string $password;
+    #[ORM\Column(type: 'string', length: 60)]
     private ?string $firstname;
-
-    /**
-     * @ORM\Column(type="string", length=90)
-     */
+    #[ORM\Column(type: 'string', length: 90)]
     private ?string $lastname;
-
-    /**
-     * @ORM\Column(type="string", nullable=true, length=10)
-     * @Assert\Regex(
-     *     pattern="/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/")
-     * @Assert\Length(min=10, minMessage="Votre numéro de téléphone est incorrect", max=10, maxMessage="Votre numéro de téléphone est incorrect" )
-     */
+    #[ORM\Column(type: 'string', length: 10, nullable: true)]
+    #[Assert\Regex(pattern: '/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/')]
+    #[Assert\Length(min: 10, max: 10, minMessage: 'Votre numéro de téléphone est incorrect', maxMessage: 'Votre numéro de téléphone est incorrect')]
     private ?string $phone;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Length(max=255, maxMessage="le nombre de caractère maximal est dépassé", min=10, minMessage="le nombre de caractère est trop minime" )
-     */
-    private $address;
-
-    /**
-     * @ORM\Column(type="string", length=35, nullable=true)
-     */
-    private $license;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\Length(min: 10, max: 255, minMessage: 'le nombre de caractère est trop minime', maxMessage: 'le nombre de caractère maximal est dépassé')]
+    private mixed $address;
+    #[ORM\Column(type: 'string', length: 35, nullable: true)]
+    private mixed $license;
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $status;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private bool $isVerified = false;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="user")
-     */
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Article::class)]
     private $article;
-
-    /**
-     * @ORM\Column(type="json")
-     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
-     */
-    private $roles = [];
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Images", mappedBy="user",cascade={"persist"})
-     *
-     */
+    #[ORM\Column(type: 'json')]
+    #[ORM\ManyToOne(targetEntity: Role::class, inversedBy: 'users')]
+    private array $roles = [];
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $updatedAt;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'App\Entity\Images', cascade: ['persist'])]
     private $images;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="user",cascade={"persist"})
-     *
-     */
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'App\Entity\Event', cascade: ['persist'])]
     private $event;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Categorie $categorie = null;
     public function __construct()
     {
         $this->article = new ArrayCollection();
         $this->event = new ArrayCollection();
         $this->images = new ArrayCollection();
     }
-
     public function __toString(): string
     {
         return $this->firstname;
     }
-
     public function getId(): ?int
     {
         return $this->id;
     }
-
     /**
      * @return mixed
      */
-    public function getAddress()
+    public function getAddress(): mixed
     {
         return $this->address;
     }
-
     /**
      * @return mixed
      */
-    public function getBirthday()
+    public function getBirthday(): mixed
     {
         return $this->birthday;
     }
-
     /**
      * @param mixed $birthday
      */
-    public function setBirthday($birthday): void
+    public function setBirthday(mixed $birthday): void
     {
         $this->birthday = $birthday;
     }
-
     /**
      * @param mixed $address
      */
-    public function setAddress($address): void
+    public function setAddress(mixed $address): void
     {
         $this->address = $address;
     }
-
     /**
      * @return mixed
      */
-    public function getLicense()
+    public function getLicense(): mixed
     {
         return $this->license;
     }
-
     /**
      * @param mixed $license
      */
-    public function setLicense($license): void
+    public function setLicense(mixed $license): void
     {
         $this->license = $license;
     }
-
     public function getEmail(): ?string
     {
         return $this->email;
     }
-
     public function setEmail(string $email): self
     {
         $this->email = $email;
 
         return $this;
     }
-
     /**
      * A visual identifier that represents this user.
      *
@@ -200,7 +141,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return (string) $this->email;
     }
-
     /**
      * @deprecated since Symfony 5.3, use getUserIdentifier instead
      */
@@ -208,8 +148,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return (string) $this->email;
     }
-
-
     /**
      * @see UserInterface
      */
@@ -221,14 +159,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return array_unique($roles);
     }
-
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
         return $this;
     }
-
     /**
      * @see PasswordAuthenticatedUserInterface
      */
@@ -236,14 +172,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->password;
     }
-
     public function setPassword(string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
-
     /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
@@ -254,7 +188,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return null;
     }
-
     /**
      * @see UserInterface
      */
@@ -263,80 +196,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-
     public function getFirstname(): ?string
     {
         return $this->firstname;
     }
-
     public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
 
         return $this;
     }
-
     public function getLastname(): ?string
     {
         return $this->lastname;
     }
-
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
 
         return $this;
     }
-
     public function getPhone(): ?string
     {
         return $this->phone;
     }
-
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
 
         return $this;
     }
-
     public function getStatus(): ?bool
     {
         return $this->status;
     }
-
     public function setStatus(?bool $status): self
     {
         $this->status = $status;
 
         return $this;
     }
-
     public function isVerified(): bool
     {
         return $this->isVerified;
     }
-
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
 
         return $this;
     }
-
-
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
-
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
-
     /**
      * @return Collection
      */
@@ -344,7 +263,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->article;
     }
-
     public function addArticle(Article $article): self
     {
         if (!$this->article->contains($article)) {
@@ -354,7 +272,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
     public function removeArticle(Article $article): self
     {
         if ($this->article->removeElement($article)) {
@@ -366,7 +283,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
     /**
      * @return Collection
      */
@@ -374,7 +290,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->event;
     }
-
     public function addEvent(Event $event): self
     {
         if (!$this->event->contains($event)) {
@@ -384,7 +299,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
     public function removeEvent(Event $event): self
     {
         if ($this->event->removeElement($event)) {
@@ -396,7 +310,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
     /**
      * @return Collection
      */
@@ -404,7 +317,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->images;
     }
-
     public function addImage(Images $image): self
     {
         if (!$this->images->contains($image)) {
@@ -414,7 +326,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
     public function removeImage(Images $image): self
     {
         if ($this->images->contains($image)) {
@@ -424,6 +335,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $image->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): self
+    {
+        $this->categorie = $categorie;
 
         return $this;
     }
