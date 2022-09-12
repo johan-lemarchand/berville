@@ -4,24 +4,29 @@
 
 {% block body %}
     {% include "layout/header.html.twig" %}
-    <h2 class="text-1xl mt-8 ml-8 font-bold leading-7 text-gray-700 sm:text-3xl sm:truncate">Les prochains évènements {#du mois de {{ "now"|localizeddate('none', 'none', null, null, 'MMMM') }}#}</h2>
-
     {% set months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'] %}
+    {% set currentYear = "now"|date("Y")  %}
+    {% set currentMonth = "now"|date|localizeddate('none', 'none', null, null, 'MMMM')  %}
     <form>
-        <select name="months" id="months">
-            <option value="">Mois</option>
-            {% for month in months %}
-                <option value="{{ loop.index }}">{{ month }}</option>
-            {% endfor %}
-        </select>
-        {% set year = (events[0].date|localizeddate('none', 'none', null, null, 'Y')) %}
-        <select name="years" id="years">
-            <option value="">Année</option>
-            {% for i in year-5..year+5  %}
-                <option value="{{ i }}">{{ i }}</option>
-            {% endfor %}
-        </select>
-        <button type="button" id="choiceMonth">Valider</button>
+        <div class="block text-center">
+            <h2 class="text-1xl mt-8 ml-8 font-bold leading-7 text-gray-700 sm:text-3xl sm:truncate">Les prochains évènements</h2>
+            <div class="mt-4">
+                <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-25 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="months" id="months">
+                    <option value="">{{ currentMonth }}</option>
+                    {% for month in months %}
+                        <option value="{{ loop.index }}">{{ month }}</option>
+                    {% endfor %}
+                </select>
+                {% set year = (events[0].date|localizeddate('none', 'none', null, null, 'Y')) %}
+                <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-25 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="years" id="years">
+                    <option value="">{{ currentYear }}</option>
+                    {% for i in year-5..year+5  %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+                <button class="uppercase mx-auto shadow bg-indigo-800 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded" type="button" id="choiceMonth">Valider</button>
+            </div>
+        </div>
     </form>
     <div id="cardEventContainer">
         {% include "maps/card.html.twig" %}

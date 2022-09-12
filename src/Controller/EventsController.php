@@ -16,6 +16,7 @@ class EventsController extends AbstractController
     public function index(Request $request, EventRepository $eventRepository): Response
     {
         if ($request->isXmlHttpRequest()) {
+
             $date = json_decode($request->getContent(), true);
 
             $events = $eventRepository->findEventByMonth($date);
@@ -27,11 +28,14 @@ class EventsController extends AbstractController
         }
 
         $allEvents = $eventRepository->findAllByDate();
+
         $events = array_filter($allEvents, fn($el) => (
+
             $el->getDate()->getTimestamp() >= (new \DateTime('NOW'))->setTime(0,0)->getTimestamp()
         ));
+
         return $this->render('maps/index.html.twig', [
             'events' => [...$events],
         ]);
-    }// index
+    } // index
 } // EventsController
