@@ -12,30 +12,45 @@ import './styles/app.css';
 import './bootstrap';
 
 import Map from './js/map';
+import {events, backs} from './js/events/eventsCard.js';
 
 const eventsMap = document.querySelectorAll(".event-map")
 eventsMap.forEach(event => {
     Map.init(event.parentElement.dataset.id);
+});
+
+let date = {month: null, year: null};
+
+const cardEventContainer = document.querySelector("#cardEventContainer")
+
+const selectMonth = document.querySelector("#months")
+selectMonth.addEventListener('change', (e) => {
+    date = {
+        ...date,
+        month: e.target.value
+    }
 })
 
-const events = document.querySelectorAll(".event")
-events.forEach(event => {
-    event.addEventListener('click', () => {
-        event.classList.add('rotate-and-hide')
-        const eventMap = document.querySelector('#map'+ event.parentElement.dataset.id)
-        eventMap.classList.add('rotate-and-display')
-        const img = event.parentElement.querySelector('.back')
-        img.classList.add('display-back')
-    })
+const selectYear = document.querySelector("#years")
+selectYear.addEventListener('change', (e) => {
+    date = {
+        ...date,
+        year: e.target.value
+    }
 })
 
-const backs = document.querySelectorAll(".back")
-backs.forEach(back => {
-    back.addEventListener('click', () => {
-        back.classList.remove('display-back')
-        const event = back.parentElement.querySelector('.event')
-        event.classList.remove('rotate-and-hide')
-        const eventMap = back.parentElement.querySelector('.event-map')
-        eventMap.classList.remove('rotate-and-display')
-    })
+const choiceMonthButton = document.querySelector("#choiceMonth")
+choiceMonthButton.addEventListener('click', (e) => {
+        fetch('/event', {
+            method: 'POST',
+            body: JSON.stringify(date),
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+        }).then((response) => {
+            return response.json()
+        }).then((body) => {
+            cardEventContainer.innerHTML = body.content
+        })
 })

@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 
 use Doctrine\Common\Collections\ArrayCollection;
+
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,11 +34,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private mixed $birthday;
     /**
      * @var string The hashed password
+
      */
     #[ORM\Column(type: 'string')]
     private string $password;
     #[ORM\Column(type: 'string', length: 60)]
     private ?string $firstname;
+
     #[ORM\Column(type: 'string', length: 90)]
     private ?string $lastname;
     #[ORM\Column(type: 'string', length: 10, nullable: true)]
@@ -60,6 +64,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $updatedAt;
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'App\Entity\Images', cascade: ['persist'])]
+
     private $images;
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'App\Entity\Event', cascade: ['persist'])]
     private $event;
