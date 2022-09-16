@@ -61,7 +61,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            //$flashy->success('Votre utilisateur est bien créé');
+            $this->addFlash('success', 'Votre tag est bien créé');
             return $this->redirectToRoute('home_user', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -95,7 +95,7 @@ class UserController extends AbstractController
             }
             $entityManager->flush();
 
-            //$flashy->success('Votre utilisateur est bien edité');
+            $this->addFlash('success', 'Votre tag est bien edité');
             return $this->redirectToRoute('home_user', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -117,7 +117,7 @@ class UserController extends AbstractController
             $entityManager->flush();
         }
 
-        //$flashy->success('Votre utilisateur est bien supprimé');
+        $this->addFlash('success', 'Votre tag est bien supprimé');
         return $this->redirectToRoute('home_user', [], Response::HTTP_SEE_OTHER);
     } // delete
 

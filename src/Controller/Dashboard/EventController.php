@@ -81,7 +81,7 @@ class EventController extends AbstractController
             $entityManager->persist($event);
             $entityManager->flush();
 
-            //$flashy->success('Votre évènement est bien créé');
+            $this->addFlash('success', 'Votre évènement est bien créé');
             return $this->redirectToRoute('event_home', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -115,7 +115,7 @@ class EventController extends AbstractController
             }
             $entityManager->flush();
 
-            //$flashy->success('Votre évènement est bien edité');
+            $this->addFlash('success', 'Votre évènement est bien edité');
             return $this->redirectToRoute('event_show',  ['id' => $event->getId()], Response::HTTP_SEE_OTHER);
         }
 
@@ -147,7 +147,7 @@ class EventController extends AbstractController
         $entityManager->persist($event);
         $entityManager->flush();
 
-        //$flashy->success('Votre photo est bien supprimée');
+        $this->addFlash('success', 'Votre évènement est bien supprimée');
         return $this->redirectToRoute('event_show', ['id' => $event->getId()], Response::HTTP_SEE_OTHER);
     }
 } // EventController

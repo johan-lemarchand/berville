@@ -1,0 +1,8 @@
+{
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
+  "version": 2,
+  "projects": {
+    "berville-front": "apps/berville-front",
+    "berville-front-e2e": "apps/berville-front-e2e"
+  }
+}

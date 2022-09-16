@@ -58,7 +58,7 @@ class RoleController extends AbstractController
             $entityManager->persist($role);
             $entityManager->flush();
 
-            //$flashy->success('Votre rôle est bien créé');
+            $this->addFlash('success', 'Votre rôle est bien créé');
             return $this->redirectToRoute('role_home');
         }
 
@@ -95,7 +95,7 @@ class RoleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $doctrine->getManager()->flush();
 
-            //$flashy->success('Votre rôle est bien edité');
+            $this->addFlash('success', 'Votre rôle est bien créé');
             return $this->redirectToRoute('role_home');
         }
 
@@ -120,7 +120,7 @@ class RoleController extends AbstractController
             $entityManager->flush();
         }
 
-        //$flashy->success('Votre rôle est bien supprimé');
+        $this->addFlash('success', 'Votre rôle est bien supprimé');
         return $this->redirectToRoute('role_home');
     } // delete
 } // RoleController

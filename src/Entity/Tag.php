@@ -15,11 +15,17 @@ class Tag
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private ?int $id;
+    private int $id;
+
     #[ORM\Column(type: 'string', length: 255)]
-    private ?string $name;
+    private string $name;
+
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'tag', cascade: ['all'], orphanRemoval: true)]
-    private ArrayCollection $articles;
+    private $articles;
+
+    #[ORM\ManyToOne(inversedBy: 'tag')]
+    private ?Colors $colors = null;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -60,6 +66,18 @@ class Tag
     public function removeArticle(Article $article): self
     {
         $this->articles->removeElement($article);
+
+        return $this;
+    }
+
+    public function getColors(): ?Colors
+    {
+        return $this->colors;
+    }
+
+    public function setColors(?Colors $colors): self
+    {
+        $this->colors = $colors;
 
         return $this;
     }

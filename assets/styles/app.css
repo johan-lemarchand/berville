@@ -1,63 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .event-container {
-    min-height: 190px;
-    min-width: 576px;
+  min-height: 190px;
+  min-width: 576px;
 }
 
 .event-map {
-    z-index: -1;
-    margin: auto;
-    width: 50%;
-    height: 100%;
-    transform: perspective(400px) rotateX(180deg);
-    transition: z-index 0.2s, transform 0.4s ease;
+  z-index: -1;
+  margin: auto;
+  width: 50%;
+  height: 100%;
+  transform: perspective(400px) rotateX(180deg);
+  transition: z-index 0.2s, transform 0.4s ease;
 }
 
 .event {
-    transform: perspective(400px) rotateX(0deg);
-    opacity: 1;
-    transition: all 0.4s ease;
+  transform: perspective(400px) rotateX(0deg);
+  opacity: 1;
+  transition: all 0.4s ease;
 }
 
 .rotate-and-hide {
-    transform: perspective(400px) rotateX(-180deg);
-    opacity: 0;
-    transition: all 0.4s ease;
+  transform: perspective(400px) rotateX(-180deg);
+  opacity: 0;
+  transition: all 0.4s ease;
 }
 
 .rotate-and-display {
-    z-index: 1;
-    transform: perspective(400px) rotateX(0deg);
-    transition: all 0.4s ease;
+  z-index: 1;
+  transform: perspective(400px) rotateX(0deg);
+  transition: all 0.4s ease;
 }
 
 .back {
-    position: absolute;
-    width: 1.25rem;
-    top: 2rem;
-    right: 2rem;
-    opacity: 0;
-    pointer-events: none;
+  position: absolute;
+  width: 1.25rem;
+  top: 2rem;
+  right: 2rem;
+  opacity: 0;
+  pointer-events: none;
 }
 .display-back {
-    cursor: pointer;
-    pointer-events: all;
-    z-index: 100;
-    opacity: 1;
-    transition: opacity 0.4s 0.4s;
+  cursor: pointer;
+  pointer-events: all;
+  z-index: 100;
+  opacity: 1;
+  transition: opacity 0.4s 0.4s;
 }
 
 .message-flash {
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    width: 30%;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  width: auto;
 }
 
 .message-end {
-    bottom: 20px;
-    position: fixed;
-    width: 30%;
-    right: 30px;
-    transform: translateX(+150%);
-    transition: transform 2s ease-out;
+  bottom: 20px;
+  position: fixed;
+  width: 30%;
+  right: 30px;
+  transform: translateX(+150%);
+  transition: transform 2s ease-out;
 }

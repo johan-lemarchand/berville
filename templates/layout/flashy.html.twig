@@ -1,0 +1,15 @@
+<div id="flashy" class="message-flash">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            {% if label == 'success' %}
+                <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800 text-center" role="alert">
+                    {{ message }}
+                </div>
+            {% elseif label == 'error' %}
+                <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800 text-center" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+</div>

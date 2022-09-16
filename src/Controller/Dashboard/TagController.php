@@ -73,7 +73,7 @@ class TagController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            // $flashy->success('Votre tag est bien edité');
+            $this->addFlash('success', 'Votre tag est bien edité');
             return $this->redirectToRoute('tag_home', [], Response::HTTP_SEE_OTHER);
         }
 
