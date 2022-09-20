@@ -120,7 +120,7 @@
                     </button>
                 </div>
                 <div class="flex flex-col lg:flex-row justify-center">
-                    <article class="mx-auto group w-full shadow-2xl max-w-md pb-8 rounded-b-2xl transform duration-500 hover:-translate-y-2 cursor-pointer">
+                    <article class="mx-auto group w-full shadow-2xl max-w-md rounded-b-2xl transform duration-500 hover:-translate-y-2 cursor-pointer">
                                 <section class="content bg-cover bg-center h-64 rounded-2xl" {% for mainImage in article.mainImage %}style="background-image: url({{ 'uploads/mainArticle/img/' ~ mainImage.name }});"{% endfor %}>
                                     <div class="flex items-end w-full h-full bg-black bg-opacity-20 text-white text-sm font-bold  p-4 rounded-2xl">
                                         <div class="w-1/2 flex items-center">
@@ -144,9 +144,23 @@
                                     <h2 class="mt-4 text-base font-medium text-gray-400">{{ article.title }}</h2>
                                     <p class="mt-2 text-2xl text-gray-700">{{ article.content }}  </p>
                                 </div>
-                                <div class="flex justify-start px-5 mb-2 mt-5 text-sm text-gray-600">
-                                    <a class="cursor-pointer hover:underline" target="_blank" href="https://unsplash.com/photos/zNN6ubHmruI">{{ article.user }}</a>
-                                </div>
+                        <div class="flex justify-between items-center m-5">
+                            <div class="flex items-center space-x-4">
+                                <img class="w-7 h-7 rounded-full"
+                                     src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
+                                     alt="{{ article.user.lastname }} avatar">
+                                <span class="font-medium dark:text-white">{{ article.user.lastname }}</span>
+                            </div>
+                            <div class="inline-flex items-center font-medium text-primary-600 text-blue-700 hover:underline">
+                                Lire l'article
+                                <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                          clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </div>
                             </article>
                 </div>
                 <div class="m-6 space-x-3 flex justify-center">

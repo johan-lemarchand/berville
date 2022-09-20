@@ -91,7 +91,7 @@ class TagController extends AbstractController
             $entityManager->flush();
         }
 
-        // $flashy->success('Votre tag est bien supprimé');
+        $this->addFlash('success', 'Votre tag est bien supprimé');
         return $this->redirectToRoute('tag_home', [], Response::HTTP_SEE_OTHER);
     } // delete
 } // TagController

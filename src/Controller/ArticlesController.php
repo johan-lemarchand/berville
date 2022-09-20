@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+
+use App\Entity\Article;
 use App\Repository\ArticleRepository;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,4 +21,12 @@ class ArticlesController extends AbstractController
             'articles' => $article,
         ]);
     } // index
+
+    #[Route('article/{id}', name: 'article_front_show', methods: ['GET'])]
+    public function show(Article $article): Response
+    {
+        return $this->render('article/front_show.html.twig', [
+            'articles' => $article,
+        ]);
+    } // show
 } // ArticlesController
