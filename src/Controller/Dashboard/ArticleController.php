@@ -109,8 +109,10 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $articleImg = $form->get('images')->getData();
             $articleMainImg = $form->get('mainImage')->getData();
+
             if ($articleImg) {
                 foreach ($articleImg as $picture) {
                     $articleFileName = $fileUploader->upload($picture, 'article');
@@ -121,7 +123,6 @@ class ArticleController extends AbstractController
                         $img = new Images();
                         $img->setName($articleFileName['name']);
                         $article->addImage($img);
-                        $entityManager->flush();
                         $this->addFlash('success', $articleFileName['name'].' est bien enregistré');
                     }
                 }
@@ -136,10 +137,11 @@ class ArticleController extends AbstractController
                     $img = new Images();
                     $img->setName($articleFileName['name']);
                     $article->addMainImage($img);
-                    $entityManager->flush();
                     $this->addFlash('success', $articleFileName['name'].' est bien enregistré');
                 }
+
             }
+            $entityManager->flush();
             return $this->redirectToRoute('article_show', ['id' => $article->getId()], Response::HTTP_SEE_OTHER);
         }
 
