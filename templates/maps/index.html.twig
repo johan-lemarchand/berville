@@ -17,21 +17,26 @@
                         <option value="{{ loop.index }}">{{ month }}</option>
                     {% endfor %}
                 </select>
-                {% set year = (events[0].date|localizeddate('none', 'none', null, null, 'Y')) %}
+                {% set year = (currentYear|localizeddate('none', 'none', null, null, 'Y')) %}
                 <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-25 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="years" id="years">
                     <option value="">{{ currentYear }}</option>
                     {% for i in year-5..year+5  %}
                         <option value="{{ i }}">{{ i }}</option>
                     {% endfor %}
                 </select>
-                <button class="uppercase mx-auto shadow bg-indigo-800 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded" type="button" id="choiceMonth">Valider</button>
+                <button class="uppercase mx-auto shadow bg-blue-600 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded" type="button" id="choiceMonth">Valider</button>
             </div>
         </div>
     </form>
-    <div id="cardEventContainer">
-        {% include "maps/card.html.twig" %}
-    </div>
-
+    {% if events|length == 0 %}
+        <div class="bg-blue-100 rounded-lg py-5 px-6 mb-4 text-base text-blue-700 mb-3 text-center mt-5" role="alert">
+            Pas d'évènements prévus pour ce mois-ci !
+        </div>
+    {% else %}
+        <div id="cardEventContainer">
+            {% include "maps/card.html.twig" %}
+        </div>
+    {% endif %}
     {#<div class="flex flex-wrap gap-10 p-8">
         {% for event in events %}
             <div>

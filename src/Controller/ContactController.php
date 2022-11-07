@@ -23,6 +23,7 @@ class ContactController extends AbstractController
         $contactForm->handleRequest($request);
 
         if ($contactForm->isSubmitted() && $contactForm->isValid()) {
+
             $email = (new Email())
                 ->from('club-judo-berville@test.com')
                 ->to($contactForm->get('email')->getData())
@@ -30,6 +31,9 @@ class ContactController extends AbstractController
                 ->text($contactForm->get('content')->getData());
 
             $mailer->send($email);
+
+            $this->addFlash('success', 'Votre message a bien été envoyé');
+            return $this->redirectToRoute('contact');
         }
         return $this->render('contact/index.html.twig', [
             'contactForm' => $contactForm->createView(),

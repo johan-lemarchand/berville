@@ -57,8 +57,7 @@ class RegistrationController extends AbstractController
                     ->to('club-judo-berville@test.com')
                     ->context(['user' => $user])
                 ));
-
-            // $this->flashy->info('Un email est envoyé à l\'administrateur pour qu\'il valide votre compte');
+            $this->addFlash('info', 'Un email est envoyé à l\'administrateur pour qu\'il valide votre compte');
 
             return $this->redirectToRoute('app_login');
         }

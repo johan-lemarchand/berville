@@ -13,7 +13,7 @@ class Images
     private $id;
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $name;
-    #[ORM\ManyToOne(targetEntity: 'App\Entity\User', inversedBy: 'images')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'images')]
     private ?User $user;
     #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'images')]
     private ?Article $article;
