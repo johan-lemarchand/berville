@@ -63,9 +63,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $updatedAt;
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'App\Entity\Images', cascade: ['persist'])]
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'App\Entity\Images', cascade: ['persist'])]
     private $images;
+
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'App\Entity\Event', cascade: ['persist'])]
     private $event;
 

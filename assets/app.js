@@ -13,6 +13,8 @@ import './bootstrap';
 
 import Map from './js/map';
 import {events, backs} from './js/events/eventsCard.js';
+import 'tw-elements';
+
 
 const eventsMap = document.querySelectorAll(".event-map")
 eventsMap.forEach(event => {

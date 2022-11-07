@@ -1,13 +1,15 @@
 /** @type {DefaultColors} */
 
 module.exports = {
-  content: [
-      './templates/**/*.html.twig',
-      'assets/js/**/*.js',
-  ],
+    content: ['./src/**/*.{html,js}', './node_modules/tw-elements/dist/js/**/*.js'],
+    plugins: [
+        require('tw-elements/dist/plugin'),
+        plugin(function({ addVariant }) {
+            addVariant('current', '&.active');
+        })
+    ],
   theme: {
     extend: {
     },
   },
-  plugins: [],
 }

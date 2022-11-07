@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Notre club{% endblock %}
+
+{% block body %}
+    {% include "layout/header.html.twig" %}
+    <!-- Container for demo purpose -->
+    <div class="container my-24 px-6 mx-auto">
+
+        <!-- Section: Design Block -->
+        <section class="mb-32 text-gray-800 text-center">
+            <h2 class="text-3xl font-bold mb-12">Rejoins notre <u class="text-blue-600">équipe</u></h2>
+
+            <div class="grid md:grid-cols-3 xl:grid-cols-4 gap-x-6 lg:gap-xl-12">
+                {% for user in users %}
+                    <div class="mb-12">
+                        {% for image in user.images %}
+                            <img src="{{ asset('uploads/user/avatar/'~ image.name) | default('undefined') | imagine_filter('thumbuseravatar') }}" class="rounded-full mx-auto shadow-lg mb-4" alt="avatar"
+                                 style="max-width: 100px" />
+                        {% else %}
+                            <img src="https://mdbootstrap.com/img/new/avatars/2.jpg" class="rounded-full mx-auto shadow-lg mb-4" alt="" style="max-width: 100px" />
+                        {% endfor %}
+                        <p class="font-bold mb-2">{{ user.firstName }}</p>
+                        <p class="text-gray-500">{{ user.categorie.name }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+        <!-- Section: Design Block -->
+
+    </div>
+    <!-- Container for demo purpose -->
+    {% include "layout/footer.html.twig" %}
+{% endblock %}
