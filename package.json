@@ -16,6 +16,11 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@fullcalendar/core": "^5.11.3",
+        "@fullcalendar/daygrid": "^5.11.3",
+        "@fullcalendar/interaction": "^5.11.3",
+        "@fullcalendar/list": "^5.11.3",
+        "@fullcalendar/timegrid": "^5.11.3",
         "autoprefixer": "^10.4.11",
         "jquery": "^3.6.0",
         "leaflet": "^1.7.1",

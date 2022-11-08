@@ -9,6 +9,7 @@
     {% set currentMonth = "now"|date|localizeddate('none', 'none', null, null, 'MMMM')  %}
     <form>
         <div class="block text-center">
+            {% include "training/calendar.html.twig" %}
             <h2 class="text-1xl mt-8 ml-8 font-bold leading-7 text-gray-700 sm:text-3xl sm:truncate">Les prochains évènements</h2>
             <div class="mt-4">
                 <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-25 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="months" id="months">
