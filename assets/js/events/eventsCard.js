@@ -1,8 +1,10 @@
-const events = document.querySelectorAll(".event")
+const events = document.querySelectorAll(".event-container")
+
 events.forEach(event => {
     event.addEventListener('click', () => {
         event.classList.add('rotate-and-hide')
         const eventMap = document.querySelector('#map'+ event.parentElement.dataset.id)
+        console.log(eventMap);
         eventMap.classList.add('rotate-and-display')
         const img = event.parentElement.querySelector('.back')
         img.classList.add('display-back')

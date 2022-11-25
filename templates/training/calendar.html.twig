@@ -1,16 +1,53 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Planning{% endblock %}
 {% block body %}
-    <a href="{{ path('app_training_new') }}">Create new booking</a>
+<section class="min-h-screen bg-gradient-to-br from-purple-900 to-indigo-900 flex">
+    {% include 'layout_dashboard/_navbar.html.twig' %}
+    <div class="lg:w-4/4 w-full p-4">
+        <div class="bg-gray-100 p-8 flex flex-col rounded-3xl h-full w-full">
+            <div class="flex justify-between items-center">
+                <div class="flex flex-col">
+                    <h1 class="text-gray-600 font-bold text-4xl">Planning</h1>
+                </div>
+                <button class="bg-green-200 relative h-12 w-12 rounded-lg flex justify-center items-center">
+                    <div class="w-6 h-6 transform font-bold text-xs -translate-y-2 translate-x-2 border-2 border-gray-100 absolute top-0 right-0 rounded-full text-gray-50 bg-green-500 flex justify-center items-center">
+                        1
+                    </div>
+                    <svg class="w-8 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                    </svg>
+                </button>
+            </div>
 
-    <div id="calendar-holder" data-events-url="{{ path('fc_load_events') }}"></div>
-{% endblock %}
+            <div class="flex" id="calendar-holder" data-events-url="{{ path('fc_load_events') }}"></div>
 
+            <div class="flex mt-4 items-center">
+                <a href='{{ path('app_training_new') }}'>
+                    <div class="w-12 h-12 rounded-lg mr-4 bg-green-200  flex items-center justify-center">
+                        <i class="far fa-plus-square"></i>
+                    </div>
+                </a>
+                <p class="font-semibold text-2xl">Creer un nouvel entrainement</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-{% block stylesheets %}
-    {{ encore_entry_link_tags('calendar') }}
-{% endblock %}
+<div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="modalCalendar" tabindex="-1" aria-labelledby="exampleModalLgLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg relative w-auto pointer-events-none">
+        <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+            <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+                <button type="button"
+                        class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
+                        data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div id="cardEventContainer" class="modal-body relative p-4">
+                {% include "maps/card.html.twig" %}
+            </div>
+        </div>
+    </div>
+</div>
 
-{% block javascripts %}
-    {{ encore_entry_script_tags('calendar') }}
 {% endblock %}

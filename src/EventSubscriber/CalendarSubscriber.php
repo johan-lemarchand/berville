@@ -1,6 +1,7 @@
 <?php
 namespace App\EventSubscriber;
 
+use App\Repository\EventRepository;
 use App\Repository\TrainingRepository;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
@@ -11,13 +12,16 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class CalendarSubscriber implements EventSubscriberInterface
 {
     private TrainingRepository $trainingRepository;
+    private EventRepository $eventRepository;
     private UrlGeneratorInterface $router;
 
     public function __construct(
         TrainingRepository $trainingRepository,
+        EventRepository $eventRepository,
         UrlGeneratorInterface $router
     ) {
         $this->trainingRepository = $trainingRepository;
+        $this->eventRepository = $eventRepository;
         $this->router = $router;
     }
 
@@ -34,8 +38,6 @@ class CalendarSubscriber implements EventSubscriberInterface
         $end = $calendar->getEnd();
         $filters = $calendar->getFilters();
 
-        // Modify the query to fit to your entity and needs
-        // Change booking.beginAt by your start date property
         $trainings = $this->trainingRepository
             ->createQueryBuilder('training')
             ->where('training.beginAt BETWEEN :start and :end OR training.endAt BETWEEN :start and :end')
@@ -46,33 +48,40 @@ class CalendarSubscriber implements EventSubscriberInterface
         ;
 
         foreach ($trainings as $training) {
-            // this create the events with your data (here booking data) to fill calendar
             $trainingEvent = new Event(
                 $training->getTitle(),
                 $training->getBeginAt(),
-                $training->getEndAt() // If the end date is null or not defined, a all day event is created.
+                $training->getEndAt()
             );
-
-            /*
-             * Add custom options to events
-             *
-             * For more information see: https://fullcalendar.io/docs/event-object
-             * and: https://github.com/fullcalendar/fullcalendar/blob/master/src/core/options.ts
-             */
 
             $trainingEvent->setOptions([
                 'backgroundColor' => 'red',
                 'borderColor' => 'red',
+                'editable'=> false,
             ]);
-            $trainingEvent->addOption(
-                'url',
-                $this->router->generate('app_training_show', [
-                    'id' => $training->getId(),
-                ])
-            );
 
-            // finally, add the event to the CalendarEvent to fill the calendar
             $calendar->addEvent($trainingEvent);
         }
+
+
+        $event = $this->eventRepository->findAll();
+        foreach ($event as $eventCompetition) {
+            $event = new Event(
+                $eventCompetition->getTitle(),
+                $eventCompetition->getDate(),
+                $eventCompetition->getDate(),
+                $eventCompetition->getId()
+            );
+
+            $event->setOptions([
+                'backgroundColor' => 'blue',
+                'borderColor' => 'blue',
+                'editable'=> false,
+                'className' => 'eventCalendar'
+            ]);
+
+            $calendar->addEvent($event);
+        }
+
     }
 }

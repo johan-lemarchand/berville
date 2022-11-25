@@ -4,6 +4,7 @@ namespace App\Controller\Dashboard;;
 
 use App\Entity\Training;
 use App\Form\TrainingType;
+use App\Repository\EventRepository;
 use App\Repository\TrainingRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +37,7 @@ class TrainingController extends AbstractController
 
         return $this->renderForm('training/new.html.twig', [
             'training' => $training,
-            'form' => $form,
+            'trainingForm' => $form,
         ]);
     }
 
@@ -79,6 +80,10 @@ class TrainingController extends AbstractController
     #[Route('/calendar', name: 'app_training_show', methods: ['GET'])]
     public function calendar(): Response
     {
-        return $this->render('training/calendar.html.twig');
+        $events = array();
+
+        return $this->render('training/calendar.html.twig', [
+            'events' => $events,
+        ]);
     }
 }

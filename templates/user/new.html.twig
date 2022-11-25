@@ -4,71 +4,7 @@
 
 {% block body %}
     <section class="min-h-screen bg-gradient-to-br from-purple-900 to-indigo-900 flex">
-        <div  id="page-wrap" class="w-1/4 lg:flex text-gray-200 flex-col">
-            <a href='{{ path('home_dashboard') }}'>
-                <div class="flex p-4 items-center">
-                    <div class="w-12 h-12 rounded-lg mr-4 bg-gradient-to-br to-pink-500 from-pink-300 flex items-center justify-center">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <p class="font-semibold text-2xl">Johan</p>
-                </div>
-            </a>
-            <div>
-                <ul>
-                    <a href='{{ path('home_dashboard') }}'>
-                        <li class="flex px-4 items-center mt-10">
-                            <div class="w-10 h-10 mr-4 flex justify-center items-center bg-gray-50 opacity-50 rounded-lg text-purple-800">
-                                <i class="fas fa-desktop"></i>
-                            </div>
-                            <p class="font-medium text-lg">Tableau de bord</p>
-                        </li>
-                    </a>
-                    <a href='{{ path('home_user') }}'>
-                        <li class="flex px-4 items-center my-4 rounded-r-full w-full py-4 bg-indigo-900">
-                            <div class="w-10 h-10 mr-4 flex justify-center items-center bg-gray-50 opacity-50 rounded-lg text-purple-800">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <p class="font-medium text-lg">Membres</p>
-                        </li>
-                    </a>
-                    <a href='{{ path('role_home') }}'>
-                        <li class="flex px-4 items-center my-4">
-                            <div class="w-10 h-10 mr-4 flex justify-center items-center bg-gray-50 opacity-50 rounded-lg text-purple-800">
-                                <i class="fas fa-user-tag"></i>
-                            </div>
-                            <p class="font-medium text-lg">Rôles</p>
-                        </li>
-                    </a>
-                    <li class="flex px-4 items-center my-4">
-                        <div class="w-10 h-10 mr-4 flex justify-center items-center bg-gray-50 opacity-50 rounded-lg text-purple-800">
-                            <i class="far fa-calendar-alt"></i>
-                        </div>
-                        <p class="font-medium text-lg">Evénements</p>
-                    </li>
-                    <a href='{{ path('article') }}'>
-                        <li class="flex px-4 items-center my-4 ">
-                            <div class="w-10 h-10 mr-4 flex justify-center items-center bg-gray-50 opacity-50 rounded-lg text-purple-800">
-                                <i class="fas fa-newspaper"></i>
-                            </div>
-                            <p class="font-medium text-lg">Articles</p>
-                        </li>
-                    </a>
-                    <a href='{{ path('tag_home') }}'>
-                        <li class="flex px-4 items-center my-4">
-                            <div class="w-10 h-10 mr-4 flex justify-center items-center bg-gray-50 opacity-50 rounded-lg text-purple-800">
-                                <i class="fas fa-tags"></i>
-                            </div>
-                            <p class="font-medium text-lg">Tags</p>
-                        </li>
-                    </a>
-                    <li class="flex px-4 items-center my-4">
-                        <div class="w-10 h-10 mr-4 flex justify-center items-center bg-gray-50 opacity-50 rounded-lg text-purple-800">
-                            <i class="far fa-envelope"></i>
-                        </div>
-                        <p class="font-medium text-lg">Messagerie</p>
-                    </li>
-                </ul>
-            </div>
+        {% include 'layout_dashboard/_navbar.html.twig' %}
             <div class="bg-purple-800 m-4 flex flex-col rounded-lg p-8 items-center justify-evenly">
                 <div class="flex items-center">
                     <div class="h-10 w-10 flex items-center justify-center rounded-lg bg-green-400 text-gray-50">

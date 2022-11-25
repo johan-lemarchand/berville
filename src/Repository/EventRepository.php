@@ -27,7 +27,16 @@ class EventRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findEventByMonth(Array $date) {
+    public function findAllByEventId(int $id)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT e FROM App\Entity\Event e WHERE e.id = '.$id)
+            ->getResult()
+            ;
+    }
+
+    public function findEventByMonth(Array $date): array
+    {
 
         ['month' => $month, 'year' => $year] = $date;
 

@@ -23,8 +23,8 @@
 }
 
 .rotate-and-hide {
-  transform: perspective(400px) rotateX(-180deg);
-  opacity: 0;
+  transform: perspective(400px) rotateX(0deg);
+  opacity: 1;
   transition: all 0.4s ease;
 }
 
@@ -40,7 +40,6 @@
   top: 2rem;
   right: 2rem;
   opacity: 0;
-  pointer-events: none;
 }
 .display-back {
   cursor: pointer;
