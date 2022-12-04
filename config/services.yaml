@@ -38,3 +38,5 @@ services:
             $articleDirectory: '%articleImg_directory%'
             $mainArticleDirectory: '%mainArticleImg_directory%'
             $eventDirectory: '%eventImg_directory%'
+
+    App\EventSubscriber\CalendarSubscriber:
