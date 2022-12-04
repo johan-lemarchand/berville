@@ -30,7 +30,7 @@ class EventsController extends AbstractController
         }
 
         return $this->render('maps/index.html.twig', [
-
+            'events' => $eventRepository->findAll(),
         ]);
     } // index
 } // EventsController

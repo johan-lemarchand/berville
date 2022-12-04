@@ -64,3 +64,7 @@
   transform: translateX(+150%);
   transition: transform 2s ease-out;
 }
+
+.fc-event-time {
+  display: none;
+}

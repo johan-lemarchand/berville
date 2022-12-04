@@ -77,7 +77,7 @@ class CalendarSubscriber implements EventSubscriberInterface
                 'backgroundColor' => 'blue',
                 'borderColor' => 'blue',
                 'editable'=> false,
-                'className' => 'eventCalendar'
+                'className' => 'eventCalendar',
             ]);
 
             $calendar->addEvent($event);

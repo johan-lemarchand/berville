@@ -40,12 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
             fetch('/event', {
                 method: 'POST',
                 body: event.event._def.extendedProps.resourceId,
-                 headers: {
+                headers: {
                     'Content-Type': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest'
                 },
             }).then((response) => {
-               return response.json()
+                return response.json()
             }).then((body) => {
                 $('#modalCalendar').modal('show');
                 const cardEventContainer = document.querySelector('#cardEventContainer');
@@ -70,16 +70,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const back = document.querySelector(".back")
 
-                    back.addEventListener('click', () => {
-                        console.log(back);
+                back.addEventListener('click', (e) => {
+                    e.stopPropagation()
+                    back.classList.remove('display-back')
+                    back.parentNode.classList.remove('rotate-and-hide')
+                    const eventMap = back.parentNode.querySelector('.event-map')
+                    eventMap.classList.remove('rotate-and-display')
+                })
 
-                        back.classList.remove('display-back')
-                        const event = back.parentElement.querySelector('.event')
-
-                        event.classList.remove('rotate-and-hide')
-                        const eventMap = back.parentElement.querySelector('.event-map')
-                        eventMap.classList.remove('rotate-and-display')
-                    })
             })
         }
     });
