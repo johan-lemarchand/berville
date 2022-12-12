@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @method Article|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,17 +16,26 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ArticleRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private readonly PaginatorInterface $paginator
+    )
     {
         parent::__construct($registry, Article::class);
     }
 
-    public function findAllByCreatedAt()
+    /**
+     * @param int $page
+     * @return PaginationInterface
+     */
+    public function findAllByCreatedAt(int $page): PaginationInterface
     {
-        return $this->getEntityManager()
+        $data = $this->getEntityManager()
             ->createQuery('SELECT a FROM App\Entity\Article a ORDER BY a.createdAt DESC')
             ->getResult()
             ;
+
+        return $this->paginator->paginate($data, $page, 6);
     }
 
     // /**

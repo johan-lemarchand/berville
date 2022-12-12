@@ -4,13 +4,15 @@ namespace App\Entity;
 
 use App\Repository\ArticleRepository;
 
+use Cocur\Slugify\Slugify;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use Doctrine\ORM\Mapping as ORM;
 
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Article
 {
     #[ORM\Id]
@@ -220,5 +222,11 @@ class Article
             }
         }
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist(): void
+    {
+        $this->slug = (new Slugify())->slugify($this->title);
     }
 }

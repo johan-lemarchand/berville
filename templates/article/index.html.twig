@@ -54,7 +54,7 @@
                                  alt="{{ article.user.lastname }} avatar">
                             <span class="font-medium dark:text-white">{{ article.user.lastname }}</span>
                         </div>
-                        <a href="{{ path('article_front_show', {'id': article.id}) }}" class="inline-flex items-center font-medium text-primary-600 text-blue-700 hover:underline">
+                        <a href="{{ path('article_front_show', {'slug': article.slug}) }}" class="inline-flex items-center font-medium text-primary-600 text-blue-700 hover:underline">
                             Lire l'article
                             <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -67,6 +67,10 @@
                 </article>
             {% endfor %}
         </section>
+        <div class="navigation flex justify-center mb-8 mt-10">
+            {% do articles.setPageRange(10) %}
+            {{ knp_pagination_render(articles, 'layout/pagination.html.twig') }}
+        </div>
     </section>
     {% include "layout/footer.html.twig" %}
 {% endblock %}

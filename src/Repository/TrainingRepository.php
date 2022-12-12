@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Training;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +38,18 @@ class TrainingRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findNextTraining()
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT t FROM App\Entity\Training t WHERE t.beginAt > CURRENT_DATE() ORDER BY t.beginAt ASC')
+            ->setMaxResults(1)
+            ->getOneOrNullResult()
+            ;
     }
 
 //    /**

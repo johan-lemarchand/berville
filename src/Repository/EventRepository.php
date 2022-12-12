@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -24,6 +25,18 @@ class EventRepository extends ServiceEntityRepository
         return $this->getEntityManager()
             ->createQuery('SELECT e FROM App\Entity\Event e ORDER BY e.date ASC')
             ->getResult()
+            ;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findNextEvent()
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT e FROM App\Entity\Event e WHERE e.date > CURRENT_DATE() ORDER BY e.date ASC')
+            ->setMaxResults(1)
+            ->getOneOrNullResult()
             ;
     }
 
