@@ -26,18 +26,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController
 {
     #[Route('/', name: 'article', methods: ['GET'])]
-    public function index(ArticleRepository $articleRepository, PaginatorInterface $paginator, Request $request): Response
+    public function index(ArticleRepository $articleRepository, Request $request): Response
     {
-        $data = $articleRepository->findAllByCreatedAt();
-
-        $articles = $paginator->paginate(
-            $data,
-            $request->query->getInt('page', 1),
-            5
-        );
-
         return $this->render('article/home.html.twig', [
-            'articles' => $articles,
+            'articles' => $articleRepository->findAllByCreatedAt($request->query->getInt('page', 1))
         ]);
     } // index
 

@@ -1,0 +1,31 @@
+{{ form_start(partnerForm, {'attr': {'novalidate': 'novalidate', 'class': 'flex text-gray-400 font-medium flex-col'}}) }}
+   {{ form_label(partnerForm.name, 'Nom', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(partnerForm.name, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(partnerForm.name) }}</div>
+{{ form_label(partnerForm.address, 'Adresse', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(partnerForm.address, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(partnerForm.address) }}</div>
+{{ form_label(partnerForm.phone, 'Téléphone', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+                    {{ form_widget(partnerForm.phone, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(partnerForm.phone) }}</div>
+{% if partner.logo is empty %}
+    {{ form_label(partnerForm.logo, 'Logo ou image du partenaire', {'label_attr': {'class': 'uppercase mt-4'}, errors: []}) }}
+    {{ form_widget(partnerForm.logo, {'attr': {'class': 'border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+    <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(partnerForm.logo) }}</div>
+{% else %}
+    {{ form_label(partnerForm.logo, 'Logo ou image du partenaire', {'label_attr': {'class': 'hidden uppercase mt-4'}, errors: []}) }}
+    {{ form_widget(partnerForm.logo, {'attr': {'class': 'hidden border px-4 ring-2 focus:ring-blue-300 ring-transparent transform duration-200 ease-in-out py-2 rounded-lg focus:outline-none'}}) }}
+    <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ form_errors(partnerForm.logo) }}</div>
+    {% if app.request.attributes.get('_route') == 'partner_edit' %}
+        <h2>Logo ou image du partenaire</h2>
+        {% for image in partner.logo %}
+        <div>
+            <img src="{{ asset('uploads/partner/img/'~image.name) }}" alt="" width="150">
+            <a href="{{ path('partner_photo_delete', {'image_id':image.id, 'partner_id':event.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}">Supprimer</a>
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endif %}
+<button class="h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg p-4 text-white mt-4">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(partnerForm) }}
+
